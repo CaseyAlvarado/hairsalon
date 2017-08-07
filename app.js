@@ -21,4 +21,5 @@ app.listen(8000, function() {
 //send html page
 app.get('/', function(request, response){ 
   response.sendFile(__dirname + '/views/home.html');
-})
+}); 
+app.post('/new/saveNewClientPOST')
