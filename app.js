@@ -9,6 +9,13 @@ var cheerio = require("cheerio");
 
 var app = express();
 
+var mongoose = require('mongoose'); 
+// var uri = "mongodb://casey:hairdesiresalon@ds139705.mlab.com:39705/clients"; 
+var db = 'mongodb://maria:2000@ds139705.mlab.com:39705/clients'
+mongoose.connect(db); 
+
+var clients = require("./routes/clients"); 
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,5 +28,5 @@ app.listen(8000, function() {
 //send html page
 app.get('/', function(request, response){ 
   response.sendFile(__dirname + '/views/home.html');
-}); 
-app.post('/new/saveNewClientPOST')
+}, clients.saveSomethingToDb); 
+// app.post('/new/saveNewClientPOST', ..............); 
