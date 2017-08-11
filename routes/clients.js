@@ -9,8 +9,9 @@ routes = {}
 
 
 routes.saveSomethingToDb = function(request, response) {
+	
 	console.log("in save something to db")
-	var test = new client({firstName: "test", lastName: "Tester", phoneNumber: 57777, email: "test@test.com"}); 
+	var test = new client({firstName: "Caseyuyyyyyyy", lastName: "Tester", phoneNumber: 57777, email: "test@test.com"}); 
 	test.save(function(err){
 		console.log("tried to save"); 
 		if(err){
