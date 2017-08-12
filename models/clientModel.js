@@ -21,7 +21,8 @@ var clientSchema = mongoose.Schema({
 	// if I had decided to do reference storage, would do it this way: visits: [{type: Schema.ObjectId, ref: 'visits'}]
 	visits: [{date: String, 
 			  time: String, 
-			  price: Number}]
+			  price: Number, 
+			  notes: String}]
 
 }, {'collection': 'clients' }); 
 

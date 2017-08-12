@@ -3,6 +3,9 @@ var $form = $("#ajax-form");
 function buttonClick(){ 
 	console.log("ayyyyy in here");
 	alert("poop"); 
+	$.get("/new/testDB", function(response){ 
+		console.log("response:" + response); 
+	})
 }
 
 function addNewVisitClick(){ 
@@ -59,30 +62,43 @@ function saveClient(){
 		if (lastPeriod < atIndex){ 
 			alert("Not a valid email"); 
 		}
+	} else if (phoneNumber !== ""){ //if not empty, check if valid 
+		if (phoneNumber.match(/[a-z]/i)){ 
+			alert('Your phone number has letters')
+		} 
+		if (phoneNumber[0] == "0"){ 
+			alert('Your phone number starts with 0, which means its probably not a real number'); 
+		}
+		if (phoneNumber.length != 10){ 
+			alert("Check the phone number again. It does not have 10 digits")
+		}
+
 	} else if (visitDate == null || visitDate == ""){ 
 		alert("You need to click a date"); 
 	} else{
 		console.log("we are all good to save!"); 
 
 	  	$.post("/new/saveNewClientPOST", {
-	  		id: id, 
-		    originalName: originalIngredientName, 
-		    originalPrice: originalIngredientPrice, 
-		    updatedName: updatedName,
-		    updatedPrice: updatedPrice,
-		    outOfStock: false
+	  		firstName: firstName, 
+	  		lastName: lastName, 
+	  		phoneNumber: phoneNumber, 
+	  		email: email, 
+	  		address: address, 
+	  		city: city, 
+	  		state: state, 
+	  		zip: zip, 
+	  		medication: medication, 
+	  		surgeryOrPregnancy: surgeryOrPregnancy, 
+	  		sensitivity: sensitivity, 
+	  		visitInfo: {date: visitDate, time: visitTime, price: visitPrice, notes: visitNotes}
 		})
 	  	.done(function(data, status){ 
-		    //Input: data, status 
-		    //Output: manipulates handlebars templete to update listed item 
-		    $('li#'+ data._id).html(data.name + "," + data.price + " <button type = 'button' class = 'editButton' value = 'EDIT'> Edit This Ingredient</button>  <button type = 'button' class = 'outOfStock' value = 'OUTOFSTOCK'> Out Of Stock</button>"); 
+		    //put up message that everything is all good 
+		    //perhaps back end send new html that just says good 
 	  	})
 	  	.error(function(err){
-		    //Input: error object 
-		    //Output: logs object if there is an error 
-		    if(err){ 
-		      console.log("There has been an error editing the ingredient", err); 
-		    }
+	  		//if error, tell her what the error is? 
+		    
 	  	})
 	}
 }

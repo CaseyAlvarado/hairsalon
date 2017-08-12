@@ -25,9 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // START SERVER ================================================================
 app.listen(8000, function() {
-  console.log('Server running on port:', 8000);}, clients.saveSomethingToDb);
+  console.log('Server running on port:', 8000);});
 //send html page
 app.get('/', function(request, response){ 
-  response.sendFile(__dirname + '/views/home.html');
-}, clients.saveSomethingToDb); 
+  response.sendFile(__dirname + '/views/home.html')}); 
 // app.post('/new/saveNewClientPOST', ..............); 
+app.get('/new/testDB', clients.saveSomethingToDb); 
+app.post('/new/saveNewClientPOST', clients.saveNewClientPOST); 
