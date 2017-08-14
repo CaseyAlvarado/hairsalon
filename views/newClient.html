@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<!-- Bootstrap -->
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script type="text/javascript" src="javascripts/main.js"></script>
+	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
+	</head>
+	<body>
+
+		<h1>Demo scraping Yahoo stock market web page</h1>
+		<button type='button' onclick='buttonClick()'> butt </button>
+
+		<p> heeeeyyy this is a pgraph</p>
+		<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		<div> 
+		<form id ="new-client-form-center"> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">First Name </span></div>
+			    <div class="col-sm-8">
+			      <input type="first-name" class="form-control box-height-and-font" id="first-name" placeholder="Enter first name"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Last Name </span></div>
+			    <div class="col-sm-8">
+			      <input type="last-name" class="form-control box-height-and-font" id="last-name" placeholder="Enter last name"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Phone Number </span></div>
+			    <div class="col-sm-8">
+			      <input type="text" class="form-control box-height-and-font" id="phone-number" placeholder="Enter phone number" maxlength="10"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Email </span></div>
+			    <div class="col-sm-8">
+			      <input type="email" class="form-control box-height-and-font" id="email" placeholder="Enter email address"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Address</span></div>
+			    <div class="col-sm-8">
+			      <input type="address" class="form-control box-height-and-font" id="address" placeholder="Enter address"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">City/Town</span></div>
+			    <div class="col-sm-8">
+			      <input type="city" class="form-control box-height-and-font" id="city" placeholder="Enter city or town"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">State</span></div>
+				<div class="col-sm-8">
+					<select class="form-control box-height-and-font" id="state" name="state">
+						<option value="">Select your state</option>
+						<option value="AK">Alaska</option>
+						<option value="AL">Alabama</option>
+						<option value="AR">Arkansas</option>
+						<option value="AZ">Arizona</option>
+						<option value="CA">California</option>
+						<option value="CO">Colorado</option>
+						<option value="CT">Connecticut</option>
+						<option value="DC">District of Columbia</option>
+						<option value="DE">Delaware</option>
+						<option value="FL">Florida</option>
+						<option value="GA">Georgia</option>
+						<option value="HI">Hawaii</option>
+						<option value="IA">Iowa</option>
+						<option value="ID">Idaho</option>
+						<option value="IL">Illinois</option>
+						<option value="IN">Indiana</option>
+						<option value="KS">Kansas</option>
+						<option value="KY">Kentucky</option>
+						<option value="LA">Louisiana</option>
+						<option value="MA">Massachusetts</option>
+						<option value="MD">Maryland</option>
+						<option value="ME">Maine</option>
+						<option value="MI">Michigan</option>
+						<option value="MN">Minnesota</option>
+						<option value="MO">Missouri</option>
+						<option value="MS">Mississippi</option>
+						<option value="MT">Montana</option>
+						<option value="NC">North Carolina</option>
+						<option value="ND">North Dakota</option>
+						<option value="NE">Nebraska</option>
+						<option value="NH">New Hampshire</option>
+						<option value="NJ">New Jersey</option>
+						<option value="NM">New Mexico</option>
+						<option value="NV">Nevada</option>
+						<option value="NY">New York</option>
+						<option value="OH">Ohio</option>
+						<option value="OK">Oklahoma</option>
+						<option value="OR">Oregon</option>
+						<option value="PA">Pennsylvania</option>
+						<option value="PR">Puerto Rico</option>
+						<option value="RI">Rhode Island</option>
+						<option value="SC">South Carolina</option>
+						<option value="SD">South Dakota</option>
+						<option value="TN">Tennessee</option>
+						<option value="TX">Texas</option>
+						<option value="UT">Utah</option>
+						<option value="VA">Virginia</option>
+						<option value="VT">Vermont</option>
+						<option value="WA">Washington</option>
+						<option value="WI">Wisconsin</option>
+						<option value="WV">West Virginia</option>
+						<option value="WY">Wyoming</option>
+					</select>
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Zip code</span></div>
+			    <div class="col-sm-8">
+			      <input type="zip" class="form-control box-height-and-font" id="zip" placeholder="Enter zip code" maxlength="5"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Medication used</span></div>
+			    <div class="col-sm-8">
+			      <input type="medication" class="form-control box-height-and-font" id="medication" placeholder="Enter medication"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Surgery/pregnancy</span></div>
+			    <div class="col-sm-8">
+			      <input type="surgery-or-pregnancy" class="form-control box-height-and-font" id="surgery-or-pregnancy" placeholder="Enter recent surgery or pregnancy"> 
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Irritation/sensitivity</span></div>
+			    <div class="col-sm-8">
+			      <input type="text" class="form-control box-height-and-font" id="sensitivity" placeholder="Enter description of irritation or sensitivity"> 
+				</div>
+			</div>
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Add first time visit</span></div>
+			</div>
+			<br> 
+			<br> 
+			<div class="form-group-group" id="newVisitTA">
+				<hr width="100%"> 
+				<div class="form-group row"> 
+					<div class="col-sm-1" id="x-close" onclick="onClickCloseNewVisit()">
+						<span> X </span> 
+						<br> 
+						<span> </span>
+					</div>
+					<div class="col-sm-4">
+						<span> Date </span> 
+						<br> 
+						<input class="form-control" type="date" id="date">
+					</div>
+					<div class="col-sm-3">
+						<span> Time </span> 
+						<br>
+						<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"> 
+					</div>
+					<div class="col-sm-3">
+						<span> Price </span> 
+						<br> 
+						<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
+					</div>
+					
+				</div>
+				<span> Notes </span>
+				<textarea class="form-control" id="notes" rows="6"></textarea>
+		      	<hr width="100%"> 
+		  	</div> 
+		  	<button type="button" class="btn btn-primary btn-block" style="font-size: 20px;" value="Submit" onclick="saveClient()">Save client</button>
+
+	  	</form>
+	  	</div>
+	</body>
+</html>

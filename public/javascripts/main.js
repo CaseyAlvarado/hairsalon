@@ -95,10 +95,80 @@ function saveClient(){
 	  	.done(function(data, status){ 
 		    //put up message that everything is all good 
 		    //perhaps back end send new html that just says good 
+		    console.log('success')
 	  	})
 	  	.error(function(err){
 	  		//if error, tell her what the error is? 
-		    
+		    console.log('error')
 	  	})
+
 	}
+}
+
+// LOG IN FUNCTIONS ///////////////////////////////////////////////////
+// $form.submit(function(event) {
+//   //prevents the default template in handlebar 
+//   event.preventDefault();
+
+//   //finds the name and price from the input text boxes on top 
+//   var name = $form.find("[name='username']").val();
+//   var password = $form.find("[name='password']").val();
+
+//   //sends post request from client to server, calls done callback or error callback after complete 
+
+//   console.log("here in form submit")
+//   $.post("/login", {
+//     username: name,
+//     password: password, 
+//   })
+//     .done(function(data, status){ 
+//     	debugger; 
+//     	console.log("whats up?")
+//     	console.log(data) 
+//     	console.log(status)
+//     })
+//     .fail(function(data, status){
+//     	debugger; 
+//     	console.log("oh no there has been an error") 
+//     });
+
+//     debugger; 
+// });
+
+function loginVerify(event){
+	event.preventDefault(); 
+
+	//finds the name and price from the input text boxes on top 
+	var name = $("#username").val();
+	var password = $("#password").val();
+	debugger; 
+  	// if((name !== "" || name != null) && (password !== "" && password != null)){ 
+  //sends post request from client to server, calls done callback or error callback after complete 
+
+	  console.log("here in form submit")
+	  $.post("/login", {
+	    username: name,
+	    password: password, 
+	  })
+	    .done(function(data, status){ 
+	    	console.log("whats up?")
+	    	console.log(data) 
+	    	console.log(status)
+	    })
+	    .fail(function(data, status){
+	    	$("#username").val("");  
+	    	$("#password").val(""); 
+	    	var errorMessage = data.responseJSON.error + " Please try again."; 
+	    	console.log("oh no there has been an error") 
+	    	$("#errorDiv").css("display", "inline-block"); 
+	    	$("#errorDiv p").text(errorMessage); 
+	    });
+}
+
+function goToNewClient(){ 
+	$.get("/new")
+}
+
+function goToFindClient(){ 
+	$.get("/findClient")
 }

@@ -17,6 +17,8 @@
     "express-handlebars": "^2.0.1",
     "mongoose": "4.1.9",
     "morgan": "^1.6.1",
-    "request": "latest"
+    "request": "latest",
+    "passport": "latest", 
+    "passport-local": "latest"
   }
 }

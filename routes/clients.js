@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose'); 
 
 var clientModel = require("../models/clientModel");
-var client = mongoose.model('clients', clientModel.clientSchema); 
+var client = mongoose.model('clients', clientModel.clientSchema);
 
 routes = {}
 
@@ -28,9 +28,26 @@ routes.saveNewClientPOST = function(request, response){
 		if(err){ 
 			console.log("There has been an error"); 
 			console.log(err); 
+			response.status(400).send(err); 
 		}
 		response.sendStatus(200); //or send new html page that says yes done, bye. 
 	})
 }
 
+// routes.blah = function(request, response){ 
+// 	//Intput: request, response object 
+// 	//Output: This is an ajax function called, so sends back to client-js all of the ingredients in the database 
+// 	console.log("just curious to know what this is")
+// 	console.log(request.xhr)
+// 	if(request.xhr){ 
+// 		// addIngredient(request, response); 
+
+// 		//then get all ingredients 
+// 		// getIngredients(function(allIngredients){
+// 		// 	response.send(allIngredients); 
+// 		// });
+// 		response.send(user); 
+// 	}
+// 	response.send(user);
+// }
 module.exports = routes; 

@@ -1,5 +1,5 @@
 body {
-	background-color: white; 
+	/*background-color: white; */
 	text-align:center;
 }
 
@@ -7,10 +7,11 @@ hr{
 	border-top: 1px solid black;
 }
 
-form{ 
+#new-client-form-center{ 
 	display:inline-block;
 	width:75%;
 }
+
 
 .form-group-group{ 
 	margin-top: 3%; 
