@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<!-- Bootstrap -->
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script type="text/javascript" src="javascripts/main.js"></script>
+	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
+	</head>
+	<body>
+		<div class="container">
+		    <div class="row">    
+		        <div class="col-xs-8 col-xs-offset-2">
+				    <div class="input-group">
+		                <div class="input-group-btn search-panel filter-by">
+	<!-- 	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
+		                    </button> -->
+	<!-- 	                    <ul class="dropdown-menu" role="menu">
+		                      <li><a href="#contains">First Name</a></li>
+		                      <li><a href="#its_equal">Last Name</a></li>
+		                    </ul> -->
+
+		                    <select class="form-control" id="filterOption" name="filterOption">
+								<option value="">Filter By</option>
+								<option value="firstName"> First Name</option>
+								<option value="lastName"> Last Name</option>
+							</select>
+		                </div> 
+		                <input type="text" class="form-control" id="search-bar-input" placeholder="Search for client here" onkeydown="keyDownTriggerSearch(event)">
+		                <span class="input-group-btn">
+		                    <button class="btn btn-default" type="submit" onclick="findSearchResults(event)"><span class="glyphicon glyphicon-search"></span></button>
+		                </span>
+		            </div>
+		        </div>
+			</div>
+		</div>
+
+		<div> 
+			<div style="float:left; "> 
+                <select class="form-control" id="filterOption" name="filterOption">
+					<option value="">Filter By</option>
+					<option value="firstName"> First Name</option>
+					<option value="lastName"> Last Name</option>
+				</select>
+			</div>
+			<div style="float:left; ">
+				<input type="text" id="search-bar-input" placeholder="Search for client here" onkeydown="keyDownTriggerSearch(event)">
+			</div>
+			<div> 
+				<button type="submit" onclick="findSearchResults(event)">  </button>
+			</div>
+
+
+		</div>
+		<div class = "search-results"> 
+
+		<div> 
+
+
+
+	</body>
+</html>

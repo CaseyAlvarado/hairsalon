@@ -1,5 +1,4 @@
 body {
-	/*background-color: white; */
 	text-align:center;
 }
 
@@ -37,4 +36,22 @@ hr{
 
  #x-close{ 
  	float: right;
+ }
+
+.home-box{ 
+	display:inline-block;
+	width:40vw;
+	background-color: lightgray; 
+	border: 3px solid rgba(0,0,0,0.1); 
+	margin: 25vh auto;
+  	padding: 30px 38px 66px;
+}
+
+#login-form-center{ 
+  display:inline-block;
+  width:40vw;
+  background-color: lightgray; 
+  border: 3px solid rgba(0,0,0,0.1); 
+  margin: 25vh auto;
+  padding: 30px 38px 66px;
  }

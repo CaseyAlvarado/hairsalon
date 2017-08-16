@@ -95,7 +95,7 @@ function saveClient(){
 	  	.done(function(data, status){ 
 		    //put up message that everything is all good 
 		    //perhaps back end send new html that just says good 
-		    console.log('success')
+		    console.log('success'); 
 	  	})
 	  	.error(function(err){
 	  		//if error, tell her what the error is? 
@@ -105,45 +105,12 @@ function saveClient(){
 	}
 }
 
-// LOG IN FUNCTIONS ///////////////////////////////////////////////////
-// $form.submit(function(event) {
-//   //prevents the default template in handlebar 
-//   event.preventDefault();
-
-//   //finds the name and price from the input text boxes on top 
-//   var name = $form.find("[name='username']").val();
-//   var password = $form.find("[name='password']").val();
-
-//   //sends post request from client to server, calls done callback or error callback after complete 
-
-//   console.log("here in form submit")
-//   $.post("/login", {
-//     username: name,
-//     password: password, 
-//   })
-//     .done(function(data, status){ 
-//     	debugger; 
-//     	console.log("whats up?")
-//     	console.log(data) 
-//     	console.log(status)
-//     })
-//     .fail(function(data, status){
-//     	debugger; 
-//     	console.log("oh no there has been an error") 
-//     });
-
-//     debugger; 
-// });
-
+// LOG IN FUNCTION ////////////////////////////
 function loginVerify(event){
 	event.preventDefault(); 
 
-	//finds the name and price from the input text boxes on top 
 	var name = $("#username").val();
 	var password = $("#password").val();
-	debugger; 
-  	// if((name !== "" || name != null) && (password !== "" && password != null)){ 
-  //sends post request from client to server, calls done callback or error callback after complete 
 
 	  console.log("here in form submit")
 	  $.post("/login", {
@@ -154,6 +121,9 @@ function loginVerify(event){
 	    	console.log("whats up?")
 	    	console.log(data) 
 	    	console.log(status)
+	    	$("body").html(data);
+	    	$("body").html(data); 
+	    	// document.write(data);
 	    })
 	    .fail(function(data, status){
 	    	$("#username").val("");  
@@ -165,10 +135,35 @@ function loginVerify(event){
 	    });
 }
 
-function goToNewClient(){ 
-	$.get("/new")
+//////////////////////////////////////////////////////
+
+function findSearchResults(event){
+	event.preventDefault(); 
+
+	var input = $("#search-bar-input").val(); 
+	console.log(input); 
+
+	var filterOption  = $("#filterOption").val();
+	console.log(filterOption); 
+
+	//figure out if to serch by either first or last name 
+
+	$.get("/searchClients", {
+		option: filterOption,
+		text: input})
+	.done(function(data, status){ 
+		
+	})
+	.fail(function(data, status){ 
+
+	})
+
+
+
 }
 
-function goToFindClient(){ 
-	$.get("/findClient")
+function keyDownTriggerSearch(event){ 
+	if (event.keyCode == 13){ 
+		findSearchResults(event); 
+	}
 }

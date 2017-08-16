@@ -18,6 +18,20 @@ routes.saveSomethingToDb = function(request, response) {
 	})
 }
 
+routes.getSomethingFromDb = function(request, response){ 
+	console.log("in get something from db"); 
+	client.find({firstName: {$regex : ".*ase.*"}}, function(err, client){ 
+		if(err){ 
+			console.log(err); 
+		}
+
+		console.log(client); 
+		console.log(client.firstName); 
+		console.log(client.lastName);
+	}); 
+
+}
+
 routes.saveNewClientPOST = function(request, response){ 
 	console.log(request.body); 
 	var obj = request.body; 
@@ -34,20 +48,27 @@ routes.saveNewClientPOST = function(request, response){
 	})
 }
 
-// routes.blah = function(request, response){ 
-// 	//Intput: request, response object 
-// 	//Output: This is an ajax function called, so sends back to client-js all of the ingredients in the database 
-// 	console.log("just curious to know what this is")
-// 	console.log(request.xhr)
-// 	if(request.xhr){ 
-// 		// addIngredient(request, response); 
 
-// 		//then get all ingredients 
-// 		// getIngredients(function(allIngredients){
-// 		// 	response.send(allIngredients); 
-// 		// });
-// 		response.send(user); 
-// 	}
-// 	response.send(user);
-// }
+routes.searchClients = function(request, response){ 
+	console.log("in search clients")
+	console.log(request);
+	console.log('request query')
+	console.log(request.query); 
+
+	var regexQuery = ".*" + request.query.text + ".*"; 
+	console.log("what option " + request.query.option); 
+
+	var filterOption = request.query.option; 
+
+	client.find({filterOption : {$regex : regexQuery}}, function(err, client){ 
+		if(err){ 
+			console.log(err); 
+		}
+		console.log("CLIENT FOUND"); 
+		console.log(client); 
+	// 	console.log(client.firstName); 
+	// 	console.log(client.lastName);
+	}); 
+}
+
 module.exports = routes; 

@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-34-204-182-56.compute-1.amazonaws.com:27017/hairsalonDB'
 mongoose.connect(uri); 
 
-var user = {name: "Maria", pwd: "HairDesireSalon2017"} 
+var user = {name: "Maria", pwd: "Maria"} 
 
 var clients = require("./routes/clients"); 
 
@@ -34,10 +34,6 @@ app.listen(8000, function() {
 //send html page
 app.get('/', function(request, response){ 
   response.sendFile(__dirname + '/views/login.html')});
-app.get('/home', function(request, response){ 
-  response.sendFile(__dirname + '/views/home.html')}); 
-// app.post('/', function(request, response){ 
-//   response.sendFile(__dirname + '/views/login.html')}); 
 
 app.post('/login', function(request, response){
 	if (request.body.username !== user.name){ 
@@ -48,15 +44,23 @@ app.post('/login', function(request, response){
 		response.status(401).send({error: "There is a problem with your PASSWORD."});
 	} else{ 
 		console.log("matches")
-		response.redirect('/home');  
+		response.redirect("/home");  
 	}
 });
 
+app.get('/home', function(request, response){ 
+  response.sendfile(__dirname + '/views/home.html')}); 
+ 
 app.get('/new', function(request, response){ 
   response.sendFile(__dirname + '/views/newClient.html')}); 
 app.get('/new/testDB', clients.saveSomethingToDb); 
 app.post('/new/saveNewClientPOST', clients.saveNewClientPOST); 
 
-app.get('/findClient', function(request, response){ 
-	// ADD TO THIS
+app.get('/old', function(request, response){ 
+	response.sendFile(__dirname + '/views/search.html')
 })
+
+app.get("/getObjectsFromDB", clients.getSomethingFromDb); 
+
+app.get("/searchClients", clients.searchClients)
+
