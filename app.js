@@ -62,5 +62,6 @@ app.get('/old', function(request, response){
 
 app.get("/getObjectsFromDB", clients.getSomethingFromDb); 
 
-app.get("/searchClients", clients.searchClients)
+// app.get("/searchClients", clients.searchClients)
 
+app.get("/loadAllClients", clients.loadClients)

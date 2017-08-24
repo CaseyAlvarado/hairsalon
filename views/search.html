@@ -8,55 +8,57 @@
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	    <script type="text/javascript" src="javascripts/main.js"></script>
 	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
+
+        <script>
+		    // $( document ).ready(function() {
+		    //     console.log( "document loaded" );
+		    //     populateClientsList(); 
+		    // });
+
+		    $( window ).on( "load", function() {
+		        console.log( "window loaded" );
+		        populateClientsList(); 
+		    });
+	    </script>
 	</head>
 	<body>
-		<div class="container">
-		    <div class="row">    
-		        <div class="col-xs-8 col-xs-offset-2">
-				    <div class="input-group">
-		                <div class="input-group-btn search-panel filter-by">
-	<!-- 	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
-		                    </button> -->
-	<!-- 	                    <ul class="dropdown-menu" role="menu">
-		                      <li><a href="#contains">First Name</a></li>
-		                      <li><a href="#its_equal">Last Name</a></li>
-		                    </ul> -->
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="/home"> Hair Deire Salon Database </a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a href="/home"> Home </a></li>
+		    </ul>
+		  </div>
+		</nav>
 
-		                    <select class="form-control" id="filterOption" name="filterOption">
-								<option value="">Filter By</option>
-								<option value="firstName"> First Name</option>
-								<option value="lastName"> Last Name</option>
-							</select>
-		                </div> 
-		                <input type="text" class="form-control" id="search-bar-input" placeholder="Search for client here" onkeydown="keyDownTriggerSearch(event)">
-		                <span class="input-group-btn">
-		                    <button class="btn btn-default" type="submit" onclick="findSearchResults(event)"><span class="glyphicon glyphicon-search"></span></button>
-		                </span>
-		            </div>
-		        </div>
-			</div>
-		</div>
-
-		<div> 
-			<div style="float:left; "> 
+		<h1> Find a customer </h1>
+		<div id="search-bar-all"> 
+			<div class="search-bar-component"> 
                 <select class="form-control" id="filterOption" name="filterOption">
-					<option value="">Filter By</option>
+
 					<option value="firstName"> First Name</option>
 					<option value="lastName"> Last Name</option>
 				</select>
 			</div>
-			<div style="float:left; ">
-				<input type="text" id="search-bar-input" placeholder="Search for client here" onkeydown="keyDownTriggerSearch(event)">
-			</div>
-			<div> 
-				<button type="submit" onclick="findSearchResults(event)">  </button>
-			</div>
+			<div class="search-bar-component search-bar-input" >
+				<input type="text" class="form-control" id="search-bar-input" placeholder="Search for client here">
+				<!-- <input type="text" class="form-control" id="search-bar-input" placeholder="Search for client here" onkeydown="keyDownTriggerSearch(event)"> -->
 
-
+			</div>
+			<div class="search-bar-component"> 
+				<!-- <button class="btn btn-default" type="submit" onclick="findSearchResults(event)"> -->
+				<button class="btn btn-default" type="submit">
+				<span class="glyphicon glyphicon-search"></span></button>
+			</div>
 		</div>
+		<div> <h4> Results </h4></div>
 		<div class = "search-results"> 
 
+			<ul class="list-group">
+			  <li class="list-group-item">Casey</li>
+			</ul>
 		<div> 
 
 

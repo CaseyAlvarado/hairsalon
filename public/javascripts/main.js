@@ -112,58 +112,73 @@ function loginVerify(event){
 	var name = $("#username").val();
 	var password = $("#password").val();
 
-	  console.log("here in form submit")
-	  $.post("/login", {
+	console.log("here in form submit")
+	$.post("/login", {
+
 	    username: name,
 	    password: password, 
-	  })
-	    .done(function(data, status){ 
+	})
+	.done(function(data, status){ 
 	    	console.log("whats up?")
 	    	console.log(data) 
 	    	console.log(status)
 	    	$("body").html(data);
 	    	$("body").html(data); 
-	    	// document.write(data);
-	    })
-	    .fail(function(data, status){
-	    	$("#username").val("");  
-	    	$("#password").val(""); 
-	    	var errorMessage = data.responseJSON.error + " Please try again."; 
-	    	console.log("oh no there has been an error") 
-	    	$("#errorDiv").css("display", "inline-block"); 
-	    	$("#errorDiv p").text(errorMessage); 
-	    });
+    })
+    .fail(function(data, status){
+    	$("#username").val("");  
+    	$("#password").val(""); 
+    	var errorMessage = data.responseJSON.error + " Please try again."; 
+    	console.log("oh no there has been an error") 
+    	$("#errorDiv").css("display", "inline-block"); 
+    	$("#errorDiv p").text(errorMessage); 
+    });
 }
 
 //////////////////////////////////////////////////////
 
-function findSearchResults(event){
-	event.preventDefault(); 
+// function findSearchResults(event){
+// 	event.preventDefault(); 
 
-	var input = $("#search-bar-input").val(); 
-	console.log(input); 
+// 	var input = $("#search-bar-input").val(); 
+// 	console.log(input); 
 
-	var filterOption  = $("#filterOption").val();
-	console.log(filterOption); 
+// 	var filterOption  = $("#filterOption").val();
+// 	console.log(filterOption); 
 
-	//figure out if to serch by either first or last name 
+// 	//figure out if to serch by either first or last name 
 
-	$.get("/searchClients", {
-		option: filterOption,
-		text: input})
-	.done(function(data, status){ 
-		
+// 	$.get("/searchClients", {
+// 		option: filterOption,
+// 		text: input})
+// 	.done(function(data, status){ 
+
+// 	})
+// 	.fail(function(data, status){ 
+
+// 	})
+
+
+
+// }
+
+// function keyDownTriggerSearch(event){ 
+// 	if (event.keyCode == 13){ 
+// 		findSearchResults(event); 
+// 	}
+// }
+
+
+function populateClientsList() { 
+	$.get("/loadAllClients")
+	.done(function(allClients){ 
+		allClients.forEach(function(client){
+			var listItem = "<li>" + client.firstName + " " + client.lastName + "</li>";
+			$("#clients-list").append(listItem);
+		})
 	})
-	.fail(function(data, status){ 
+	.fail(function(err){ 
 
 	})
 
-
-
-}
-
-function keyDownTriggerSearch(event){ 
-	if (event.keyCode == 13){ 
-		findSearchResults(event); 
-	}
 }

@@ -49,26 +49,37 @@ routes.saveNewClientPOST = function(request, response){
 }
 
 
-routes.searchClients = function(request, response){ 
-	console.log("in search clients")
-	console.log(request);
-	console.log('request query')
-	console.log(request.query); 
+// routes.searchClients = function(request, response){ 
+// 	console.log("in search clients")
+// 	console.log(request);
+// 	console.log('request query')
+// 	console.log(request.query); 
 
-	var regexQuery = ".*" + request.query.text + ".*"; 
-	console.log("what option " + request.query.option); 
+// 	var regexQuery = ".*" + request.query.text + ".*"; 
+// 	console.log("what option " + request.query.option); 
 
-	var filterOption = request.query.option; 
+// 	var filterOption = request.query.option; 
 
-	client.find({filterOption : {$regex : regexQuery}}, function(err, client){ 
+// 	client.find({filterOption : {$regex : regexQuery}}, function(err, client){ 
+// 		if(err){ 
+// 			console.log(err); 
+// 		}
+// 		console.log("CLIENT FOUND"); 
+// 		console.log(client); 
+// 	// 	console.log(client.firstName); 
+// 	// 	console.log(client.lastName);
+// 	}); 
+// }
+
+routes.loadClients = function(request, response){ 
+	client.find({}, function(err, allClients){ 
 		if(err){ 
+			console.log("There has been an error loading all the clients");
 			console.log(err); 
+			response.send(404); 
 		}
-		console.log("CLIENT FOUND"); 
-		console.log(client); 
-	// 	console.log(client.firstName); 
-	// 	console.log(client.lastName);
-	}); 
-}
 
+		response.send(allClients); 
+	})
+}
 module.exports = routes; 

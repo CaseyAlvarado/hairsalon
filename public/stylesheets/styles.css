@@ -55,3 +55,20 @@ hr{
   margin: 25vh auto;
   padding: 30px 38px 66px;
  }
+
+#search-bar-all{ 
+  display:inline-block;
+  width:75%;
+}
+.search-bar-component{ 
+  float: left;
+}
+
+.search-bar-input{ 
+  width: 65%;
+}
+
+.search-results{ 
+  display:inline-block;
+  width:85%;
+}
