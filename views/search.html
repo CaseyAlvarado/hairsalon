@@ -34,32 +34,42 @@
 		</nav>
 
 		<h1> Find a customer </h1>
-		<div id="search-bar-all"> 
-			<div class="search-bar-component"> 
-                <select class="form-control" id="filterOption" name="filterOption">
-
+		<div class="search-bar-all"> 
+			<div style="float:left;"> 
+                <select class="form-control box-height-and-font" id="filterOption" name="filterOption">
 					<option value="firstName"> First Name</option>
 					<option value="lastName"> Last Name</option>
 				</select>
 			</div>
-			<div class="search-bar-component search-bar-input" >
-				<input type="text" class="form-control" id="search-bar-input" placeholder="Search for client here">
-				<!-- <input type="text" class="form-control" id="search-bar-input" placeholder="Search for client here" onkeydown="keyDownTriggerSearch(event)"> -->
-
-			</div>
-			<div class="search-bar-component"> 
-				<!-- <button class="btn btn-default" type="submit" onclick="findSearchResults(event)"> -->
-				<button class="btn btn-default" type="submit">
+			<div style="float:right;"> 
+				<button class="btn btn-default box-height-and-font" type="submit" onclick="findSearchResults(event)">
 				<span class="glyphicon glyphicon-search"></span></button>
 			</div>
+			<div style="overflow: hidden;">
+				<input type="text" class="form-control box-height-and-font" id="search-bar-input" placeholder="Search for client here" onkeyup="findSearchResults(event)">
+			</div>
 		</div>
-		<div> <h4> Results </h4></div>
-		<div class = "search-results"> 
 
-			<ul class="list-group">
-			  <li class="list-group-item">Casey</li>
-			</ul>
+		<div style="display:none;" id="results-client-whole"> 
+			<div> <h4> Search Results </h4></div>
+			<div class = "search-results" id="results-clients-list"> 
+				<ul class="list-group box-height-and-font">
+				  
+				</ul>
+			</div> 
+			<br> 
+			<br> 
+			<br> 
+		</div>
+
 		<div> 
+		<div> <h4> All Clients </h4></div>
+		<div class = "search-results" id="all-clients-list"> 
+			<ul class="list-group box-height-and-font">
+			  <li class="list-group-item">Casey Alvarado</li>
+			</ul>
+		</div> 
+		</div>
 
 
 

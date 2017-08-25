@@ -1,5 +1,7 @@
 var $form = $("#ajax-form");
 
+var clientsListWhole; 
+
 function buttonClick(){ 
 	console.log("ayyyyy in here");
 	alert("poop"); 
@@ -137,48 +139,77 @@ function loginVerify(event){
 
 //////////////////////////////////////////////////////
 
-// function findSearchResults(event){
-// 	event.preventDefault(); 
+function findSearchResults(event){
+	event.preventDefault(); 
 
-// 	var input = $("#search-bar-input").val(); 
-// 	console.log(input); 
+	$("#results-clients-list ul li").remove(); 
 
-// 	var filterOption  = $("#filterOption").val();
-// 	console.log(filterOption); 
+	var input = $("#search-bar-input").val(); 
 
-// 	//figure out if to serch by either first or last name 
+	var filterOption  = $("#filterOption").val();
 
-// 	$.get("/searchClients", {
-// 		option: filterOption,
-// 		text: input})
-// 	.done(function(data, status){ 
+	//find either in pre-pop listed
+	var results = clientsListWhole.filter(function(client){
+		if(client[filterOption].includes(input)){ 
+			return true; 
+		} 
+		else{ return false; }
+	})
 
-// 	})
-// 	.fail(function(data, status){ 
+	//ask mongo for client if ne 
+	if (results.length ==0){ 
+		$.get("/searchClients", {
+			option: filterOption,
+			text: input})
+		.done(function(data, status){ 
 
-// 	})
+		})
+		.fail(function(data, status){ 
+
+		})
+
+	}
+	
+	$("#results-client-whole").css("display", "block"); 
 
 
+	sortClientsByFirstName(results).forEach(function(res){ 
+		var resListItem = "<li class='list-group-item'>" + res.firstName + " " + res.lastName + "</li>";
+		$("#results-clients-list ul").append(resListItem); 
+	})
 
-// }
-
-// function keyDownTriggerSearch(event){ 
-// 	if (event.keyCode == 13){ 
-// 		findSearchResults(event); 
-// 	}
-// }
+}
 
 
 function populateClientsList() { 
 	$.get("/loadAllClients")
 	.done(function(allClients){ 
-		allClients.forEach(function(client){
-			var listItem = "<li>" + client.firstName + " " + client.lastName + "</li>";
-			$("#clients-list").append(listItem);
+		clientsListWhole = sortClientsByFirstName(allClients); 
+		clientsListWhole.forEach(function(client){
+			var listItem = "<li class='list-group-item'>" + client.firstName + " " + client.lastName + "</li>";
+			$("#all-clients-list ul").append(listItem);
 		})
 	})
 	.fail(function(err){ 
-
+		var errorMsg = "<h5> Sorry cannot load customers right now. </h5>"
+		$("#all-clients-list").append(errorMsg);
 	})
 
+}
+
+function sortClientsByFirstName(clientsArray){ 
+	//http://jsfiddle.net/rLwrx6dx/
+	var sorted = clientsArray.sort(function(a, b) {
+    return a.lastName.localeCompare(b.lastName) ||
+           a.firstName.localeCompare(b.firstName) || 0
+	});
+	return sorted; 
+}
+
+function sortClientsByLastName(clientsArray){ 
+	var sortedln = clientsArray.sort(function(a, b) {
+    return b.lastName.localeCompare(a.lastName) ||
+           b.firstName.localeCompare(a.firstName) || 0
+	});
+	return sortedln; 
 }

@@ -60,15 +60,21 @@ hr{
   display:inline-block;
   width:75%;
 }
-.search-bar-component{ 
-  float: left;
-}
-
-.search-bar-input{ 
-  width: 65%;
-}
 
 .search-results{ 
   display:inline-block;
+  width:65%;
+}
+
+.search-bar-all{ 
+  display:inline-block;
   width:85%;
+}
+
+.search-results li { 
+  cursor: pointer;
+}
+
+.list-group-item:hover{ 
+  background-color: #EE7621;
 }
