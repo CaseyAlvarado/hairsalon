@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+		<!-- Bootstrap -->
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script type="text/javascript" src="javascripts/main.js"></script>
+	    <script type="text/javascript" src="javascripts/clientPage.js"></script>
+	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
+	</head>
+	<body>
+		<nav class='navbar navbar-default'>
+		  <div class='container-fluid'>
+		    <div class='navbar-header'>
+		      <a class='navbar-brand' href='/home'> Hair Deire Salon Database </a>
+		    </div>
+		    <ul class='nav navbar-nav'>
+		      <li class='active'><a href='/home'> Home </a></li>
+		    </ul>
+		  </div>
+		</nav>
+
+		<h1> Hair Desire Salon Client </h1>
+		<small class='form-text text-muted'>Don't worry. We'll never share your information with anyone else.</small>
+		<br> 
+		<button id = 'editButton' style='display: inline' onclick='turnOnEditMode()'> Edit customer information </button>
+		<button id = 'saveButton' style='display: none' onclick='turnOffEditMode()'> Save customer information </button> 
+		<div> 
+		<form id ='new-client-form-center'> 
+			<div class='form-group-group'>
+		    	<div class='col-sm-4 col-form-label set-text-div-height'><span class='span-vertical-align'>First Name </span></div>
+			    <div class="col-sm-8" id="firstname">
+			      <span class="span-vertical-align"> Casey </span>
+				</div>
+			</div>
+			<br> 
+			<div class="form-group-group" id = "lastname">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Last Name </span></div>
+			    <div class="col-sm-8">
+			      <span class="span-vertical-align"> Alvarado </span>
+				</div>
+			</div>
+			
+			<div class="form-group-group">
+		    	<div class="col-sm-4 col-form-label set-text-div-height"><span class="span-vertical-align">Visits</span></div>
+			</div>
+			<br> 
+			<br> 
+			<button> Add a new visit </button>
+			<div class="form-group-group" id="newVisitTA" style="display: none">
+				<hr width="100%"> 
+				<div class="form-group row"> 
+					<div class="col-sm-4">
+						<span> Date </span> 
+						<br> 
+						<input class="form-control" type="date" id="date">
+					</div>
+					<div class="col-sm-3">
+						<span> Time </span> 
+						<br>
+						<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"> 
+					</div>
+					<div class="col-sm-3">
+						<span> Price </span> 
+						<br> 
+						<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
+					</div>
+					
+				</div>
+				<span> Notes </span>
+				<textarea class="form-control" id="notes" rows="6"></textarea>
+		      	<hr width="100%"> 
+		  	</div> 
+		  	<div> 
+			  	<ul class="list-group box-height-and-font" >
+					  <li class="list-group-item" id = "1" onclick="alert(id)"> September 3rd/24mins/5.00 </li>
+				</ul>
+			</div>
+	  	</form>
+	  	</div>
+	</body>
+</html>
