@@ -1,6 +1,7 @@
 var $form = $("#ajax-form");
 
 var clientsListWhole; 
+var editMode = false; 
 
 function buttonClick(){ 
 	console.log("ayyyyy in here");
@@ -125,7 +126,6 @@ function loginVerify(event){
 	    	console.log(data) 
 	    	console.log(status)
 	    	$("body").html(data);
-	    	$("body").html(data); 
     })
     .fail(function(data, status){
     	$("#username").val("");  
@@ -148,6 +148,12 @@ function findSearchResults(event){
 
 	var filterOption  = $("#filterOption").val();
 
+	if (input == ""){ 
+		$("#results-clients-list ul li").remove(); 
+	}
+
+	var results; 
+
 	//find either in pre-pop listed
 	var results = clientsListWhole.filter(function(client){
 		if(client[filterOption].includes(input)){ 
@@ -156,27 +162,38 @@ function findSearchResults(event){
 		else{ return false; }
 	})
 
-	//ask mongo for client if ne 
-	if (results.length ==0){ 
+	if(results.length > 0){ 
+		$("#results-client-whole").css("display", "block"); 
+		sortClientsByFirstName(results).forEach(function(res){ 
+			var resListItem = "<li class='list-group-item' id='" + res._id + "'  onclick='loadClientPage(id)'>" + res.firstName + " " + res.lastName + "</li>";
+			$("#results-clients-list ul").append(resListItem); 
+		})
+	}
+
+	// ask mongo for client if not existant 
+	else if (results.length == 0 || results == null){ 
 		$.get("/searchClients", {
 			option: filterOption,
 			text: input})
-		.done(function(data, status){ 
+		.done(function(clients){
+			console.log("clients"); 
+			console.log(clients);
 
+			if(results == null){ 
+				results = clients; 
+			}
+			$("#results-client-whole").css("display", "block"); 
+			debugger; 
+			sortClientsByFirstName(results).forEach(function(res){ 
+				var resItem = "<li class='list-group-item' id='" + res._id + "'  onclick='loadClientPage(id)'>" + res.firstName + " " + res.lastName + "</li>";
+				$("#results-clients-list ul").append(resItem); 
+			})
 		})
 		.fail(function(data, status){ 
-
-		})
-
+			results = null; 
+			//TODO: display an error message somewhere?  
+		}) 
 	}
-	
-	$("#results-client-whole").css("display", "block"); 
-
-
-	sortClientsByFirstName(results).forEach(function(res){ 
-		var resListItem = "<li class='list-group-item'>" + res.firstName + " " + res.lastName + "</li>";
-		$("#results-clients-list ul").append(resListItem); 
-	})
 
 }
 
@@ -186,13 +203,13 @@ function populateClientsList() {
 	.done(function(allClients){ 
 		clientsListWhole = sortClientsByFirstName(allClients); 
 		clientsListWhole.forEach(function(client){
-			var listItem = "<li class='list-group-item'>" + client.firstName + " " + client.lastName + "</li>";
-			$("#all-clients-list ul").append(listItem);
+			var listItem = "<li class='list-group-item' id='" + client._id + "'  onclick='loadClientPage(id)'>" + client.firstName + " " + client.lastName + "</li>";
+			$("#results-clients-list ul").append(listItem);
 		})
 	})
 	.fail(function(err){ 
 		var errorMsg = "<h5> Sorry cannot load customers right now. </h5>"
-		$("#all-clients-list").append(errorMsg);
+		$("#results-clients-list").append(errorMsg);
 	})
 
 }
@@ -213,3 +230,21 @@ function sortClientsByLastName(clientsArray){
 	});
 	return sortedln; 
 }
+
+
+// function loadClientPage(id){ 
+// 	console.log("clicked with this id " + id )
+
+// 	$.get("/loadClientPageGET", {
+// 		id:id
+// 	})
+// 	.done(function(){ 
+// 		console.log("success?")
+// 	})
+// 	.fail(function(){ 
+// 		console.log("failed?")
+
+// 	})
+
+// }
+

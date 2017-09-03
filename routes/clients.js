@@ -33,7 +33,6 @@ routes.getSomethingFromDb = function(request, response){
 }
 
 routes.saveNewClientPOST = function(request, response){ 
-	console.log(request.body); 
 	var obj = request.body; 
 	var visitInfo = request.body['visitInfo']
 	var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: visitInfo}); 
@@ -49,27 +48,29 @@ routes.saveNewClientPOST = function(request, response){
 }
 
 
-// routes.searchClients = function(request, response){ 
-// 	console.log("in search clients")
-// 	console.log(request);
-// 	console.log('request query')
-// 	console.log(request.query); 
+routes.searchClients = function(request, response){ 
 
-// 	var regexQuery = ".*" + request.query.text + ".*"; 
-// 	console.log("what option " + request.query.option); 
+	var regexQuery = ".*" + request.query.text + ".*"; 
 
-// 	var filterOption = request.query.option; 
+	var filterOption = String(request.query.option); 
 
-// 	client.find({filterOption : {$regex : regexQuery}}, function(err, client){ 
-// 		if(err){ 
-// 			console.log(err); 
-// 		}
-// 		console.log("CLIENT FOUND"); 
-// 		console.log(client); 
-// 	// 	console.log(client.firstName); 
-// 	// 	console.log(client.lastName);
-// 	}); 
-// }
+	if(filterOption == "lastName"){ 
+		client.find({"lastName": {$regex : regexQuery}}, function(err, clients){
+			if(err){ 
+				console.log(err); 
+				response.status(404).send(err);
+			}
+			response.send(clients); 
+		});
+	} else { //if (filterOption == "firstName")
+		client.find({"firstName": {$regex : regexQuery}}, function(err, clients){  
+			if(err){ 
+				response.status(404).send(err);
+			}
+			response.send(clients);
+		});
+	} 
+}
 
 routes.loadClients = function(request, response){ 
 	client.find({}, function(err, allClients){ 
@@ -82,4 +83,19 @@ routes.loadClients = function(request, response){
 		response.send(allClients); 
 	})
 }
+
+routes.loadOneClientPage = function(request, response){ 
+	console.log("IN load one client page"); 
+	client.findById(request.query.id, function(err, client){ 
+		if(err){ 
+			console.log("there has been an error loading a client page");
+			console.log(err); 
+			response.send(404); 
+		}else{ 
+			console.log(client);
+			response.status(200).send(client); 
+		} 
+	})
+}
+
 module.exports = routes; 

@@ -33,7 +33,7 @@ app.listen(8000, function() {
   console.log('Server running on port:', 8000);});
 //send html page
 app.get('/', function(request, response){ 
-  response.sendFile(__dirname + '/views/login.html')});
+  response.sendFile(__dirname + '/views/oldClient.html')});
 
 app.post('/login', function(request, response){
 	if (request.body.username !== user.name){ 
@@ -62,6 +62,9 @@ app.get('/old', function(request, response){
 
 app.get("/getObjectsFromDB", clients.getSomethingFromDb); 
 
-// app.get("/searchClients", clients.searchClients)
+app.get("/searchClients", clients.searchClients); 
 
-app.get("/loadAllClients", clients.loadClients)
+app.get("/loadAllClients", clients.loadClients); 
+
+app.get("/loadClientPageGET", clients.loadOneClientPage)
+
