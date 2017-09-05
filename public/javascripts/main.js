@@ -34,6 +34,7 @@ function formatDate(){
 }
 
 function saveClient(){ 
+	debugger; 
 	var firstName = $("#first-name").val().trim();
 	var lastName = $("#last-name").val().trim(); 
 	var phoneNumber = $("#phone-number").val(); 
@@ -247,4 +248,20 @@ function sortClientsByLastName(clientsArray){
 // 	})
 
 // }
+
+function turnOffEditMode(){ 
+	//save new client object and store it in mongo db 
+	//revert back to span
+	//need to call saveclient
+	debugger; 
+	saveClient()
+
+	// var firstNameSaveModeString = $("<input class='form-control box-height-and-font' id='first-name' value='" + clientLoaded.firstName + "'>")
+	// <span class="span-vertical-align"> Casey </span>
+	// $("#first-name span").remove(); 
+	// $("#first-name").append(firstNameEditModeString);
+
+
+
+}
 

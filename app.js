@@ -66,5 +66,9 @@ app.get("/searchClients", clients.searchClients);
 
 app.get("/loadAllClients", clients.loadClients); 
 
-app.get("/loadClientPageGET", clients.loadOneClientPage)
+app.get("/loadClientPageGET", clients.loadOneClientPage); 
+
+app.post("/old/saveNewVisitPOST", clients.); 
+
+app.post("/old/updateOldClientInfoPOST", clients.updateOldClientInfoPOST); 
 

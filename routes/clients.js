@@ -98,4 +98,27 @@ routes.loadOneClientPage = function(request, response){
 	})
 }
 
+// routes.saveNewVisitPOST = function(request, response){ 
+// 	//first update the mongo object 
+// 	// https://docs.mongodb.com/manual/reference/operator/update/push/
+// 	 // db.clients.update({"firstName": "ClientA"}, {$push: { visits :{ $each : [{"wk" : 3, "score" : 5}]}}})
+// 	//then send back the updated visits? 
+
+// }
+
+
+routes.updateOldClientInfoPOST = function(request, response){
+
+	// THIS WORKS
+
+// > db.clients.find({_id : ObjectId('59ae4fe4b9491e23b6c10423')})
+// { "_id" : ObjectId("59ae4fe4b9491e23b6c10423"), "firstName" : "ClientA", "lastName" : "ChangedLastName", "visits" : [ { "wk" : 1, "score" : 10 }, { "wk" : 2, "score" : 88 }, { "wk" : 3, "score" : 5 } ] }
+
+	var objectIdString = "ObjectId('" + request.query.id + "')"
+	//then DO SET FOR ALL FIELDS MANUALLY CAUSE DON'T WANNA REPLACE WHOLE OBJECT SINCE DON'T WANNA REPLACE VISITS 
+	clients.findOneAndUpdate({_id : objectIdString}, {$set : {"lastName" : "ChangedLastName"}} )
+	db.clients.update({"firstName" : "ClientA"}, {$set : {"lastName" : "ChangedLastName"}})
+
+
+}
 module.exports = routes; 
