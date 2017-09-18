@@ -31,6 +31,7 @@ function loadClientPage(id){
 }
 
 function populateClientPage(){ 
+	//load info
 	$("#first-name span").text(clientLoaded.firstName); 
 	$("#last-name span").text(clientLoaded.lastName); 
 	$("#phone-number span").text(clientLoaded.phoneNumber); 
@@ -43,6 +44,12 @@ function populateClientPage(){
 	$("#surgery-or-pregnancy span").text(clientLoaded.surgeryOrPregnancy); 
 	$("#sensitivity span").text(clientLoaded.sensitivity); 
 
+	//then load visits 
+	var allVisits = clientLoaded.visits; 
+	allVisits.map(function(visit){
+		var visitListItem = "<li class='list-group-item' id = '" + visit._id+ "' onclick='alert(id)'> " + visit.date + " " + visit.time + " " + visit.price + "</li>" 
+		$("#visitsList").append(visitListItem);	
+	})
 }
 
 function turnOnEditMode(){ 
@@ -102,7 +109,6 @@ function turnOnEditMode(){
 
 
 function turnOffEditMode(){ 
-	debugger; 
 	//getting the updated information from input fields
 	var firstName = $("#first-name input").val().trim();
 	var lastName = $("#last-name input").val().trim(); 
@@ -115,110 +121,103 @@ function turnOffEditMode(){
 	var medication = $("#medication input").val(); 
 	var surgeryOrPregnancy = $("#surgery-or-pregnancy input").val(); 
 	var sensitivity = $("#sensitivity input").val(); 
-	debugger; 
 	
-  	$.post("/old/updateOldClientInfoPOST", {
-  		id: clientLoaded._id, 
-  		firstName: firstName, 
-  		lastName: lastName, 
-  		phoneNumber: phoneNumber, 
-  		email: email, 
-  		address: address, 
-  		city: city, 
-  		state: state, 
-  		zip: zip, 
-  		medication: medication, 
-  		surgeryOrPregnancy: surgeryOrPregnancy, 
-  		sensitivity: sensitivity, 
-	})
-  	.done(function(updatedClient, status){
-  		clientLoaded = updatedClient; 
-  		debugger; 
-	    console.log('success'); 
+	var atIndex =  email.indexOf("@");
+	if (firstName === "" || firstName == null){ 
+		alert("First name is empty or bad")
+	} else if (lastName === "" || lastName == null){ 
+		alert("Last name is empty or bad")
+	} else if((email !== "") && (atIndex < 0)){ 
+		alert("Not a valid email")
+	} else if ((phoneNumber !== "") && (phoneNumber.match(/[a-z]/i))){ //if not empty, check if valid 
+		alert('Your phone number has letters')
 
-	    $("#editButton").css("display", "inline"); 
-		$("#saveButton").css("display", "none"); 
+	} else if ((phoneNumber !== "") && (phoneNumber[0] == "0")){ 
+		alert('Your phone number starts with 0, which means its probably not a real number');
+	} else if((phoneNumber !== "") && (phoneNumber.length !== 10)){ 
+		alert("Check the phone number again. It does not have 10 digits")
+	} else{
+		console.log("we are all good to save!"); 
+		
+	  	$.post("/old/updateOldClientInfoPOST", {
+	  		id: clientLoaded._id, 
+	  		firstName: firstName, 
+	  		lastName: lastName, 
+	  		phoneNumber: phoneNumber, 
+	  		email: email, 
+	  		address: address, 
+	  		city: city, 
+	  		state: state, 
+	  		zip: zip, 
+	  		medication: medication, 
+	  		surgeryOrPregnancy: surgeryOrPregnancy, 
+	  		sensitivity: sensitivity, 
+		})
+	  	.done(function(updatedClient, status){
+	  		clientLoaded = updatedClient; 
+		    console.log('success'); 
 
-		var firstNameSaveString = $("<span class='span-vertical-align'>" +  updatedClient.firstName + "</span>")
-		$("#first-name").empty(); 
-		$("#first-name").append(firstNameSaveString);
-		debugger; 
+		    $("#editButton").css("display", "inline"); 
+			$("#saveButton").css("display", "none"); 
 
-		var lastNameSaveString = $("<span class='span-vertical-align'>" +  updatedClient.lastName + "</span>")
-		$("#last-name").empty(); 
-		$("#last-name").append(lastNameSaveString);
+			var firstNameSaveString = $("<span class='span-vertical-align'>" +  updatedClient.firstName + "</span>")
+			$("#first-name").empty(); 
+			$("#first-name").append(firstNameSaveString);
 
-		var phoneNumberSaveString = $("<span class='span-vertical-align'>" +  updatedClient.phoneNumber + "</span>")
-		$("#phone-number").empty(); 
-		$("#phone-number").append(phoneNumberSaveString);
+			var lastNameSaveString = $("<span class='span-vertical-align'>" +  updatedClient.lastName + "</span>")
+			$("#last-name").empty(); 
+			$("#last-name").append(lastNameSaveString);
 
-		var emailSaveString = $("<span class='span-vertical-align'>" + updatedClient.email + "</span>")
-		$("#email").empty(); 
-		$("#email").append(emailSaveString);
+			var phoneNumberSaveString = $("<span class='span-vertical-align'>" +  updatedClient.phoneNumber + "</span>")
+			$("#phone-number").empty(); 
+			$("#phone-number").append(phoneNumberSaveString);
 
-		var addressSaveString = $("<span class='span-vertical-align'>" +  updatedClient.address + "</span>")
-		$("#address").empty(); 
-		$("#address").append(addressSaveString);
+			var emailSaveString = $("<span class='span-vertical-align'>" + updatedClient.email + "</span>")
+			$("#email").empty(); 
+			$("#email").append(emailSaveString);
 
-		var citySaveString = $("<span class='span-vertical-align'>" +  updatedClient.city + "</span>")
-		$("#city").empty();  
-		$("#city").append(citySaveString);
+			var addressSaveString = $("<span class='span-vertical-align'>" +  updatedClient.address + "</span>")
+			$("#address").empty(); 
+			$("#address").append(addressSaveString);
 
-		var stateSaveString = $("<span class='span-vertical-align'>" +  updatedClient.state+ "</span>")
-		$("#state").empty(); 
-		$("#state").append(stateSaveString);
-		debugger; 
-		if(updatedClient.zip){ 
-			debugger; 
-			var zipSaveString = $("<span class='span-vertical-align'>" + updatedClient.zip + "</span>")
-		}
-		else{ 
-			debugger; 
-			var zipSaveString = $("<span class='span-vertical-align'> </span>")
-		}
+			var citySaveString = $("<span class='span-vertical-align'>" +  updatedClient.city + "</span>")
+			$("#city").empty();  
+			$("#city").append(citySaveString);
 
-		$("#zip").empty(); 
-		$("#zip").append(zipSaveString);
+			var stateSaveString = $("<span class='span-vertical-align'>" +  updatedClient.state+ "</span>")
+			$("#state").empty(); 
+			$("#state").append(stateSaveString);
+			if(updatedClient.zip){ 
+				var zipSaveString = $("<span class='span-vertical-align'>" + updatedClient.zip + "</span>")
+			}
+			else{ 
+				var zipSaveString = $("<span class='span-vertical-align'> </span>")
+			}
 
-		var medicationSaveString = $("<span class='span-vertical-align'>" +  updatedClient.medication + "</span>")
-		$("#medication").empty(); 
-		$("#medication").append(medicationSaveString);
+			$("#zip").empty(); 
+			$("#zip").append(zipSaveString);
 
-		var surgeryOrPregnancySaveString = $("<span class='span-vertical-align'>" +  updatedClient.surgeryOrPregnancy + "</span>")
-		$("#surgery-or-pregnancy").empty(); 
-		$("#surgery-or-pregnancy").append(surgeryOrPregnancySaveString);
+			var medicationSaveString = $("<span class='span-vertical-align'>" +  updatedClient.medication + "</span>")
+			$("#medication").empty(); 
+			$("#medication").append(medicationSaveString);
 
-		var sensitivitySaveString = $("<span class='span-vertical-align'>" +  updatedClient.sensitivity + "</span>")
-		$("#sensitivity").empty(); 
-		$("#sensitivity").append(sensitivitySaveString);
+			var surgeryOrPregnancySaveString = $("<span class='span-vertical-align'>" +  updatedClient.surgeryOrPregnancy + "</span>")
+			$("#surgery-or-pregnancy").empty(); 
+			$("#surgery-or-pregnancy").append(surgeryOrPregnancySaveString);
 
-  	})
-  	.error(function(err){
-  		//if error, tell her what the error is? 
-	    alert("ERROR saving changes. Please try again"); 
-	    return null; 
-  	})
+			var sensitivitySaveString = $("<span class='span-vertical-align'>" +  updatedClient.sensitivity + "</span>")
+			$("#sensitivity").empty(); 
+			$("#sensitivity").append(sensitivitySaveString);
 
-
-	
-
-	// var firstNameSaveModeString = $("<input class='form-control box-height-and-font' id='first-name' value='" + clientLoaded.firstName + "'>")
-	// <span class="span-vertical-align"> Casey </span>
-	// $("#first-name span").remove(); 
-	// $("#first-name").append(firstNameEditModeString);
+	  	})
+	  	.error(function(err){
+		    alert("ERROR saving changes. Please try again"); 
+		    return null; 
+	  	})
+  	}
 
 }
 
-
-function updateClient(){ 
-
-}
-
-// function makeClientPage(client){ 
-// 	var fn = client.firstName; 
-
-// 	return ("<body> <nav class='navbar navbar-default'><div class='container-fluid'><div class='navbar-header'><a class='navbar-brand' href='/home'> Hair Deire Salon Database </a></div><ul class='nav navbar-nav'><li class='active'><a href='/home'> Home </a></li></ul></div></nav></body><h1> Hair Desire Salon New Client Form</h1><small class='form-text text-muted'>Don't worry. We'll never share your information with anyone else.</small><div><form id ='new-client-form-center'>")
-// }
 
 function showNewVisitForm(){ 
 	$("#date").val(""); 
