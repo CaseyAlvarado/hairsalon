@@ -8,6 +8,7 @@ var request = require("request");
 var cheerio = require("cheerio"); 
 var app = express();
 
+
 var passport = require("passport"); 
 var LocalStrategy = require("passport-local").Strategy; 
 
@@ -28,12 +29,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // START SERVER ================================================================
 app.listen(8000, function() {
   console.log('Server running on port:', 8000);});
 //send html page
 app.get('/', function(request, response){ 
-  response.sendFile(__dirname + '/views/oldClient.html')});
+  response.sendFile(__dirname + '/views/home.html')});
 
 app.post('/login', function(request, response){
 	if (request.body.username !== user.name){ 
@@ -66,9 +68,12 @@ app.get("/searchClients", clients.searchClients);
 
 app.get("/loadAllClients", clients.loadClients); 
 
-app.get("/loadClientPageGET", clients.loadOneClientPage); 
+app.get("/old/loadClientPageGET", clients.loadOneClientPage); 
 
-app.post("/old/saveNewVisitPOST", clients.); 
+app.post("/old/saveNewVisitPOST", clients.saveNewVisitPOST); 
 
 app.post("/old/updateOldClientInfoPOST", clients.updateOldClientInfoPOST); 
+
+app.get('/old/clientPageGET', function(request, response){ 
+  response.sendfile(__dirname + '/views/oldClient.html')}); 
 

@@ -13,7 +13,7 @@ var clientSchema = mongoose.Schema({
 	city: String, 
 	state: String, 
 	zip: Number, 
-	medication: Number, 
+	medication: String, 
 	surgeryOrPregnancy: String, 
 	sensitivity: String, 
 	// made the decision to include embedded storage: https://github.com/olinjs/olinjs/tree/master/lessons/03-mongo and 

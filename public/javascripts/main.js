@@ -34,7 +34,6 @@ function formatDate(){
 }
 
 function saveClient(){ 
-	debugger; 
 	var firstName = $("#first-name").val().trim();
 	var lastName = $("#last-name").val().trim(); 
 	var phoneNumber = $("#phone-number").val(); 
@@ -53,30 +52,20 @@ function saveClient(){
 	var visitPrice = $("#newVisitTA #price").val();
 	var visitNotes = $("#newVisitTA #notes").val();
 
+	var atIndex =  email.indexOf("@");
 	if (firstName === "" || firstName == null){ 
 		alert("First name is empty or bad")
 	} else if (lastName === "" || lastName == null){ 
 		alert("Last name is empty or bad")
-	} else if (email !== ""){ //if not empty, check if valid 
-		var atIndex = email.indexOf("@"); 
-		if (atIndex < 0){ 
-			alert("Not a valid email"); 
-		}
-		var lastPeriod = email.lastIndexOf(".com");
-		if (lastPeriod < atIndex){ 
-			alert("Not a valid email"); 
-		}
-	} else if (phoneNumber !== ""){ //if not empty, check if valid 
-		if (phoneNumber.match(/[a-z]/i)){ 
-			alert('Your phone number has letters')
-		} 
-		if (phoneNumber[0] == "0"){ 
-			alert('Your phone number starts with 0, which means its probably not a real number'); 
-		}
-		if (phoneNumber.length != 10){ 
-			alert("Check the phone number again. It does not have 10 digits")
-		}
+	} else if((email !== "") && (atIndex < 0)){ 
+		alert("Not a valid email")
+	} else if ((phoneNumber !== "") && (phoneNumber.match(/[a-z]/i))){ //if not empty, check if valid 
+		alert('Your phone number has letters')
 
+	} else if ((phoneNumber !== "") && (phoneNumber[0] == "0")){ 
+		alert('Your phone number starts with 0, which means its probably not a real number');
+	} else if((phoneNumber !== "") && (phoneNumber.length !== 10)){ 
+		alert("Check the phone number again. It does not have 10 digits")
 	} else if (visitDate == null || visitDate == ""){ 
 		alert("You need to click a date"); 
 	} else{
@@ -94,7 +83,10 @@ function saveClient(){
 	  		medication: medication, 
 	  		surgeryOrPregnancy: surgeryOrPregnancy, 
 	  		sensitivity: sensitivity, 
-	  		visitInfo: {date: visitDate, time: visitTime, price: visitPrice, notes: visitNotes}
+	  		firstVisitDate: visitDate, 
+	  		firstVisitTime: visitTime, 
+	  		firstVisitPrice: visitPrice, 
+	  		firstVisitNotes: visitNotes 
 		})
 	  	.done(function(data, status){ 
 		    //put up message that everything is all good 
@@ -122,11 +114,8 @@ function loginVerify(event){
 	    username: name,
 	    password: password, 
 	})
-	.done(function(data, status){ 
-	    	console.log("whats up?")
-	    	console.log(data) 
-	    	console.log(status)
-	    	$("body").html(data);
+	.done(function(data, status){  
+	    $("body").html(data);
     })
     .fail(function(data, status){
     	$("#username").val("");  
@@ -184,7 +173,6 @@ function findSearchResults(event){
 				results = clients; 
 			}
 			$("#results-client-whole").css("display", "block"); 
-			debugger; 
 			sortClientsByFirstName(results).forEach(function(res){ 
 				var resItem = "<li class='list-group-item' id='" + res._id + "'  onclick='loadClientPage(id)'>" + res.firstName + " " + res.lastName + "</li>";
 				$("#results-clients-list ul").append(resItem); 
@@ -198,10 +186,10 @@ function findSearchResults(event){
 
 }
 
-
-function populateClientsList() { 
+function populateClientsList() {
+	console.log("in populate clients list"); 
 	$.get("/loadAllClients")
-	.done(function(allClients){ 
+	.done(function(allClients){  
 		clientsListWhole = sortClientsByFirstName(allClients); 
 		clientsListWhole.forEach(function(client){
 			var listItem = "<li class='list-group-item' id='" + client._id + "'  onclick='loadClientPage(id)'>" + client.firstName + " " + client.lastName + "</li>";

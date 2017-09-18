@@ -78,3 +78,7 @@ hr{
 .list-group-item:hover{ 
   background-color: #EE7621;
 }
+
+.float-right{ 
+  float: right;
+}

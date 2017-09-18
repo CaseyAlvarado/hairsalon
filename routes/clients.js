@@ -1,6 +1,7 @@
-var express = require('express'); 
+var express = require('express');
 var router = express.Router(); 
 var mongoose = require('mongoose'); 
+var path = require("path");
 
 var clientModel = require("../models/clientModel");
 var client = mongoose.model('clients', clientModel.clientSchema);
@@ -24,7 +25,6 @@ routes.getSomethingFromDb = function(request, response){
 		if(err){ 
 			console.log(err); 
 		}
-
 		console.log(client); 
 		console.log(client.firstName); 
 		console.log(client.lastName);
@@ -34,8 +34,11 @@ routes.getSomethingFromDb = function(request, response){
 
 routes.saveNewClientPOST = function(request, response){ 
 	var obj = request.body; 
-	var visitInfo = request.body['visitInfo']
-	var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: visitInfo}); 
+	// var visitInfo = request.body['visitInfo']
+	// console.log(visitInfo); 
+	var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: [{date: obj.firstVisitDate, time: obj.firstVisitTime , price: obj.firstVisitPrice, notes: obj.firstVisitNotes}]}); 
+	console.log("new client object below")
+	console.log(newClient); 
 	// do this to update visits: https://stackoverflow.com/questions/15621970/pushing-object-into-array-schema-in-mongoose
 	newClient.save(function(err){ 
 		if(err){ 
@@ -73,6 +76,7 @@ routes.searchClients = function(request, response){
 }
 
 routes.loadClients = function(request, response){ 
+	console.log("in load clients"); 
 	client.find({}, function(err, allClients){ 
 		if(err){ 
 			console.log("There has been an error loading all the clients");
@@ -85,40 +89,51 @@ routes.loadClients = function(request, response){
 }
 
 routes.loadOneClientPage = function(request, response){ 
-	console.log("IN load one client page"); 
 	client.findById(request.query.id, function(err, client){ 
 		if(err){ 
 			console.log("there has been an error loading a client page");
 			console.log(err); 
 			response.send(404); 
-		}else{ 
-			console.log(client);
-			response.status(200).send(client); 
 		} 
+		response.send(client);  
 	})
 }
 
-// routes.saveNewVisitPOST = function(request, response){ 
-// 	//first update the mongo object 
-// 	// https://docs.mongodb.com/manual/reference/operator/update/push/
-// 	 // db.clients.update({"firstName": "ClientA"}, {$push: { visits :{ $each : [{"wk" : 3, "score" : 5}]}}})
-// 	//then send back the updated visits? 
-
-// }
+routes.saveNewVisitPOST = function(request, response){ 
+	//first update the mongo object 
+	//https://docs.mongodb.com/manual/reference/operator/update/push/
+	 // db.clients.update({"firstName": "ClientA"}, {$push: { visits :{ $each : [{"wk" : 3, "score" : 5}]}}})
+	 client.findOneAndUpdate({_id: request.body.clientId}, {$push: { visits: {$each : [{date: request.body.visitDate, time: request.body.visitTime, price: request.body.visitPrice, notes: request.body.visitNotes}]}}}, {new: true}, 
+	 	function(err, clientUpdated){
+	 		if(err){ 
+	 			console.log("There has been an error saving a new visit" + err); 
+	 			response.status(404).send(err); 
+	 		} 
+	 		response.status(200).send(clientUpdated); 
+	 	} 
+	)
+}
 
 
 routes.updateOldClientInfoPOST = function(request, response){
-
-	// THIS WORKS
-
 // > db.clients.find({_id : ObjectId('59ae4fe4b9491e23b6c10423')})
-// { "_id" : ObjectId("59ae4fe4b9491e23b6c10423"), "firstName" : "ClientA", "lastName" : "ChangedLastName", "visits" : [ { "wk" : 1, "score" : 10 }, { "wk" : 2, "score" : 88 }, { "wk" : 3, "score" : 5 } ] }
-
-	var objectIdString = "ObjectId('" + request.query.id + "')"
+// { "_id" : ObjectId("59ae4fe4b949 1e23b6c10423"), "firstName" : "ClientA", "lastName" : "ChangedLastName", "visits" : [ { "wk" : 1, "score" : 10 }, { "wk" : 2, "score" : 88 }, { "wk" : 3, "score" : 5 } ] }
 	//then DO SET FOR ALL FIELDS MANUALLY CAUSE DON'T WANNA REPLACE WHOLE OBJECT SINCE DON'T WANNA REPLACE VISITS 
-	clients.findOneAndUpdate({_id : objectIdString}, {$set : {"lastName" : "ChangedLastName"}} )
-	db.clients.update({"firstName" : "ClientA"}, {$set : {"lastName" : "ChangedLastName"}})
 
+	var obj = request.body;
+	console.log("what are you saving??"); 
+	console.log(obj);  
+	client.findOneAndUpdate({_id : obj.id}, {$set : {firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity}}, {new: true}, 
+		function(err, clientUpdated){
+			if(err){ 
+	 			console.log("There has been an error updating client information" + err); 
+	 			response.status(404).send(err); 
+	 		} 
+	 		console.log(clientUpdated)
+	 		response.status(200).send(clientUpdated);  
+		})
 
+	// db.clients.update({"firstName" : "ClientA"}, {$set : {"lastName" : "ChangedLastName"}})
 }
+
 module.exports = routes; 
