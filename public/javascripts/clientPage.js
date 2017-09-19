@@ -46,15 +46,17 @@ function populateClientPage(){
 
 	//then load visits 
 	var allVisits = clientLoaded.visits; 
-	allVisits.map(function(visit){
-		var visitListItem = "<li class='list-group-item' id = '" + visit._id+ "' onclick='alert(id)'> " + visit.date + " " + visit.time + " " + visit.price + "</li>" 
-		$("#visitsList").append(visitListItem);	
+	allVisits.forEach(function(visit){
+		// var visitListItem = "<li class='list-group-item' id = '" + visit._id+ "' onclick='alert(id)'> " + visit.date + " " + visit.time + " " + visit.price + "</li>" 
+
+		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-sm-2 float-right'><span>  </span> <br> <button onclick='return exitNewVisitForm()'> Open </button><br></div><div class='col-sm-4'><span> Date </span> <br> <span>"+ visit.date +"</span></div><div class='col-sm-3'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-sm-3'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div>"
+		$("#accordion").append(panelItem);	
 	})
 }
 
 function turnOnEditMode(){ 
 	editMode = true; 
-	debugger; 
+
 	$("#editButton").css("display", "none"); 
 	$("#saveButton").css("display", "inline"); 
 
@@ -110,6 +112,7 @@ function turnOnEditMode(){
 
 function turnOffEditMode(){ 
 	//getting the updated information from input fields
+	editMode = false; 
 	var firstName = $("#first-name input").val().trim();
 	var lastName = $("#last-name input").val().trim(); 
 	var phoneNumber = $("#phone-number input").val(); 
@@ -215,7 +218,6 @@ function turnOffEditMode(){
 		    return null; 
 	  	})
   	}
-
 }
 
 
@@ -227,8 +229,7 @@ function showNewVisitForm(){
 
 	if(editMode){ 
 		alert("SAVE your changes before adding a new visit"); 
-	}
-	$("#newVisitTA").css("display", "inline"); 
+	}else{ $("#newVisitTA").css("display", "inline"); } 
 	return false; 
 }
 
@@ -282,4 +283,9 @@ function exitNewVisitForm(){
 		$("#newVisitTA").css("display", "none"); 
 	}
 	return false; 
+}
+
+function openVisitDetails(){ 
+
+
 }

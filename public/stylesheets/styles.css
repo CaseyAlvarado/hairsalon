@@ -82,3 +82,30 @@ hr{
 .float-right{ 
   float: right;
 }
+
+
+/**/
+/*.panel-group .list-group {
+  margin-bottom: 0;
+}
+
+.panel-group .list-group .list-group-item {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
+.panel-group .list-group .list-group-item:last-child {
+  border-bottom: none;
+}*/
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
