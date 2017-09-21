@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-		<!-- Bootstrap -->
-    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	    <script type="text/javascript" src="javascripts/main.js"></script>
 	    <script type="text/javascript" src="javascripts/clientPage.js"></script>
 	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
+	    <script >
+	    	$(document).ready(function(e) {
+			  $('.collapse').collapse({toggle: false});
+			});
+
+	    </script>
 	</head>
 	<body>
 		<nav class='navbar navbar-default'>
@@ -118,7 +125,54 @@
 				<br> 
 				<div class="form-group-group" id="newVisitTA" style="display: none">
 					<hr width="100%"> 
-					<div> 
+					<!-- </div> -->
+					<div class="panel-group" id="accordion-newvisit">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<div class="form-group row"> 
+									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header"> 
+										<span>  </span> 
+										<br> 
+										<div style="float:right; ">
+										<a onclick = "exitNewVisitForm()"> Exit </a>
+										</div>
+										<br> 
+									</div>
+									<div class="col-xs-12 col-md-4 margin-for-visit-header" >
+										<span> Date </span> 
+										<br> 
+										<input class="form-control" type="date" id="date"/>
+									</div>
+									<div class="col-xs-12 col-md-3 margin-for-visit-header" >
+										<span> Time </span> 
+										<br>
+										<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"/> 
+									</div>
+									<div class="col-xs-12 col-md-3 margin-for-visit-header">
+										<span> Price </span> 
+										<br> 
+										<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
+									</div>
+								</div>
+							</h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse in">
+							<div class="panel-body notes-text-size">
+								<span> Notes </span>
+								<textarea class="form-control" id="notes" rows="6"></textarea>
+								<br> 
+						      	<button style="float: right" onclick="return saveNewVisit()"> Save Visit </button>
+						      	<br>
+							</div>
+						</div>
+					</div>
+					</div>
+					<hr width="100%"> 
+				</div>
+
+
+<!-- 					<div> 
 						<h4> New Visit </h4>
 					</div>
 					<div class="form-group row"> 
@@ -129,12 +183,12 @@
 						<div class="col-sm-4">
 							<span> Date </span> 
 							<br> 
-							<input class="form-control" type="date" id="date">
+							<input class="form-control" type="date" id="date"/>
 						</div>
 						<div class="col-sm-3">
 							<span> Time </span> 
 							<br>
-							<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"> 
+							<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"/> 
 						</div>
 						<div class="col-sm-3">
 							<span> Price </span> 
@@ -149,77 +203,43 @@
 			      	<button style="float: right" onclick="return saveNewVisit()"> Save Visit </button>
 			      	<br> 
 			      	<hr width="100%"> 
-		  		</div> 
+		  		</div>  -->
 
-			  	<ul class="list-group box-height-and-font" id = "visitsList">
+<!-- 			  	<ul class="list-group box-height-and-font" id = "visitsList">
 
-				</ul>
+				</ul> -->
 
-				<h1>Collapse Test</h1>
-				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<!-- <a data-toggle="collapse" href="#collapseOne">Collapsible Group Item #1</a> -->
-								<div class="form-group row"> 
-									<div class="col-sm-2 float-right">
-										<span>  </span> 
-										<br> 
-										<button onclick="return exitNewVisitForm()"> Close </button>
-										<br> 
-									</div>
-									<div class="col-sm-4">
-										<span> Date </span> 
-										<br> 
-										<input class="form-control" type="date" id="date">
-									</div>
-									<div class="col-sm-3">
-										<span> Time </span> 
-										<br>
-										<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"> 
-									</div>
-									<div class="col-sm-3">
-										<span> Price </span> 
-										<br> 
-										<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
-								</div>
-							</h4>
-						</div>
-						<div id="collapseOne" class="panel-collapse collapse in">
-							<div class="panel-body">
-								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-							</div>
-						</div>
-					</div>
+				<div class="panel-group" id="accordion-visits">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<div class="form-group row"> 
-									<div class="col-sm-2 float-right">
-										<span>  </span> 
-										<br> 
-										<button onclick="return exitNewVisitForm()"> Open </button>
+									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header"> 
+										<div style="float:right; ">
+										<a data-toggle='collapse' href='#collapseFifty' class='accordion-toggle btn btn-primary btn-block'> </a>
+										</div>
 										<br> 
 									</div>
-									<div class="col-sm-4">
+									<div class="col-xs-12 col-md-4 margin-for-visit-header" >
 										<span> Date </span> 
 										<br> 
-										<input class="form-control" type="date" id="date">
+										<span> September 3rd </span>
 									</div>
-									<div class="col-sm-3">
+									<div class="col-xs-12 col-md-3 margin-for-visit-header" >
 										<span> Time </span> 
 										<br>
-										<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"> 
+										<span> 5 mins </span>
 									</div>
-									<div class="col-sm-3">
+									<div class="col-xs-12 col-md-3 margin-for-visit-header">
 										<span> Price </span> 
 										<br> 
-										<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
+										<span> 100.00</span>
+									</div>
 								</div>
 							</h4>
 						</div>
-						<div id="collapseTwo" class="panel-collapse collapse" style="display: none;">
-							<div class="panel-body">
+						<div id="collapseFifty" class="panel-collapse collapse">
+							<div class="panel-body notes-text-size">
 								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 							</div>
 						</div>

@@ -1,4 +1,4 @@
-var $form = $("#ajax-form");
+var $form = $("#ajax-form"); 
 
 var clientLoaded; 
 var editMode = false; 
@@ -11,7 +11,6 @@ function loadClientPage(id){
 	.done(function(clientObject, status){ 
 		console.log("got client object")
 		clientLoaded = clientObject; 
-		debugger; 
 
 		$.get("/old/clientPageGET")
 		.done(function(htmlPage, status){
@@ -45,13 +44,18 @@ function populateClientPage(){
 	$("#sensitivity span").text(clientLoaded.sensitivity); 
 
 	//then load visits 
-	var allVisits = clientLoaded.visits; 
-	allVisits.forEach(function(visit){
-		// var visitListItem = "<li class='list-group-item' id = '" + visit._id+ "' onclick='alert(id)'> " + visit.date + " " + visit.time + " " + visit.price + "</li>" 
+	var allVisits = sortByDate(clientLoaded.visits); 
 
-		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-sm-2 float-right'><span>  </span> <br> <button onclick='return exitNewVisitForm()'> Open </button><br></div><div class='col-sm-4'><span> Date </span> <br> <span>"+ visit.date +"</span></div><div class='col-sm-3'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-sm-3'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div>"
-		$("#accordion").append(panelItem);	
+	allVisits.map(function(visit, index){
+		var dateSplit = visit.date.split("-"); 
+		var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
+		
+ 
+		// Shouldn't need to link this to an id cause the notes are already fetched. So I could just use the index in a map function? 
+		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block'> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
+		$("#accordion-visits").append(panelItem);
 	})
+	$('.collapse').collapse({toggle: false});
 }
 
 function turnOnEditMode(){ 
@@ -238,10 +242,11 @@ function saveNewVisit(){
 	var visitTime = $("#newVisitTA #time").val();
 	var visitPrice = $("#newVisitTA #price").val();
 	var visitNotes = $("#newVisitTA #notes").val();
+	debugger; 
 
 	//save to mongo object 
 	$.post("/old/saveNewVisitPOST", {
-		clientId : clientLoaded.id, 
+		clientId : clientLoaded._id, 
 		visitDate: visitDate, 
 		visitTime: visitTime, 
 		visitPrice: visitPrice, 
@@ -249,16 +254,23 @@ function saveNewVisit(){
 	})
 	.done(function(updatedClient){ 
 		//with the new data call a populate visits function to populate this list
-		$("#newVisitTA").css("display", "none");  
-		$("#visitsList").empty();
+		$("#newVisitTA").css("display", "none");
+
+		$("#accordion-visits").empty();
+	
+		
 		clientLoaded = updatedClient; 
 		var allUpdatedVisits = updatedClient["visits"]; 
 		var sortedVisits = sortByDate(allUpdatedVisits)
 
-		sortedVisits.map(function(visit){
-			var visitListItem = "<li class='list-group-item' id = '" + visit._id+ "' onclick='alert(id)'> " + visit.date + " " + visit.time + " " + visit.price + "</li>" 
-			$("#visitsList").append(visitListItem);	
+		sortedVisits.map(function(visit, index){
+			var dateSplit = visit.date.split("-"); 
+			var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
+			var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block'> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
+			$("#accordion-visits").append(panelItem);
 		})
+		debugger; 
+		$('.collapse').collapse({toggle: false});
 	})
 	.fail(function(err){ 
 		alert("Could not save visit. Please try again.")
@@ -282,10 +294,5 @@ function exitNewVisitForm(){
 	if (response == true){ 
 		$("#newVisitTA").css("display", "none"); 
 	}
-	return false; 
-}
-
-function openVisitDetails(){ 
-
-
+	// return false; 
 }

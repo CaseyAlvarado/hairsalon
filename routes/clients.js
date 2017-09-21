@@ -103,12 +103,15 @@ routes.saveNewVisitPOST = function(request, response){
 	//first update the mongo object 
 	//https://docs.mongodb.com/manual/reference/operator/update/push/
 	 // db.clients.update({"firstName": "ClientA"}, {$push: { visits :{ $each : [{"wk" : 3, "score" : 5}]}}})
+	 console.log(request.body)
 	 client.findOneAndUpdate({_id: request.body.clientId}, {$push: { visits: {$each : [{date: request.body.visitDate, time: request.body.visitTime, price: request.body.visitPrice, notes: request.body.visitNotes}]}}}, {new: true}, 
 	 	function(err, clientUpdated){
 	 		if(err){ 
 	 			console.log("There has been an error saving a new visit" + err); 
 	 			response.status(404).send(err); 
 	 		} 
+	 		console.log("client updated:")
+	 		console.log(clientUpdated); 
 	 		response.status(200).send(clientUpdated); 
 	 	} 
 	)

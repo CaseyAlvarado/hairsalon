@@ -19,6 +19,6 @@
     "morgan": "^1.6.1",
     "request": "latest",
     "passport": "latest", 
-    "passport-local": "latest"
+    "passport-local": "latest", 
   }
 }
