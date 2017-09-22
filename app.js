@@ -35,7 +35,7 @@ app.listen(8000, function() {
   console.log('Server running on port:', 8000);});
 //send html page
 app.get('/', function(request, response){ 
-  response.sendFile(__dirname + '/views/home.html')});
+  response.sendFile(__dirname + '/views/login.html')});
 
 app.post('/login', function(request, response){
 	if (request.body.username !== user.name){ 
