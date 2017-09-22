@@ -7,7 +7,7 @@
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	    <script type="text/javascript" src="javascripts/main.js"></script>
-	    <script type="text/javascript" src="javascripts/clientPage.js"></script>
+	    <!-- <script type="text/javascript" src="javascripts/clientPage.js"></script> -->
 	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 
         <script>
@@ -19,6 +19,15 @@
 		    $( window ).on( "load", function() {
 		        console.log( "window loaded" );
 		        populateClientsList(); 
+		        $('select[name="sortOption"]').change(function(){
+				  	debugger; 
+				    if ($(this).val() == "lastnamesort")
+				    	sortAndDisplayClients("lastnamesort"); 
+				    else if ($(this).val() == "firstnamesort")
+				    	sortAndDisplayClients("firstnamesort"); 
+
+				    
+				});
 		    });
 	    </script>
 	</head>
@@ -34,7 +43,7 @@
 		  </div>
 		</nav>
 
-		<h1> Find a customer </h1>
+		<h1> Search for a customer </h1>
 		<div class="search-bar-all"> 
 			<div style="float:left;"> 
                 <select class="form-control box-height-and-font" id="filterOption" name="filterOption">
@@ -43,7 +52,7 @@
 				</select>
 			</div>
 			<div style="float:right;"> 
-				<button class="btn btn-default box-height-and-font" type="submit" onclick="findSearchResults(event)">
+				<button class="btn btn-default box-height-and-font" type="submit" onclick="findSearchResults(event)" style="background: #337ab7; color: white;">
 				<span class="glyphicon glyphicon-search"></span></button>
 			</div>
 			<div style="overflow: hidden;">
@@ -53,6 +62,15 @@
 
 		<div id="results-client-whole"> 
 			<div> <h4> Clients </h4></div>
+			<div class="search-results"> 
+				<div style="display: inline; width:30%; "> Sort Clients By: </div> 
+                <select class="form-control box-height-and-font" id="sortOption" name="sortOption" style="display: inline; width:30%; ">
+					<option value="firstnamesort"> First Name</option>
+					<option value="lastnamesort"> Last Name</option>
+				</select>
+			</div>
+			<br>
+			<br>  
 			<div class = "search-results" id="results-clients-list"> 
 				<ul class="list-group box-height-and-font" >
 				  <li class="list-group-item" id = "1" onclick="alert(id)"> Caseeeeyyy </li>

@@ -8,10 +8,11 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	    <script type="text/javascript" src="javascripts/main.js"></script>
-	    <script type="text/javascript" src="javascripts/clientPage.js"></script>
+	    <!-- <script type="text/javascript" src="javascripts/clientPage.js"></script> -->
 	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 	    <script >
 	    	$(document).ready(function(e) {
+	    		debugger; 
 			  $('.collapse').collapse({toggle: false});
 			});
 
@@ -30,10 +31,10 @@
 		</nav>
 
 		<h1> Hair Desire Salon Client </h1>
-		<small class='form-text text-muted'>Don't worry. We'll never share your information with anyone else.</small>
+		<p class='form-text text-muted'>Don't worry. We'll never share your information with anyone else.</p>
 		<br> 
-		<button id = 'editButton' style='display: inline' onclick='turnOnEditMode()'> EDIT information </button>
-		<button id = 'saveButton' style='display: none' onclick='turnOffEditMode()'> SAVE information </button> 
+		<button id = 'editButton' style='display: inline; width: 50%; white-space: normal' onclick='turnOnEditMode()' class="btn btn-primary btn-block"> EDIT information </button>
+		<button id = 'saveButton' style='display: none; width: 50%; white-space: normal' onclick='turnOffEditMode()' class="btn btn-primary btn-block"> SAVE information </button> 
 		<div> 
 		<form id ='new-client-form-center'> 
 			<div class='form-group-group'>
@@ -120,29 +121,28 @@
 		  		<div> 
 		  			<h4> Visits </h4>
 		  		</div>
-		  		<button onclick="return showNewVisitForm()"> + Add Visit </button>
+		  		<button onclick="return showNewVisitForm()" class="btn btn-primary btn-block" style="width:35vw; display: inline; white-space: normal "> + Add Visit </button>
 				<br> 
 				<br> 
 				<div class="form-group-group" id="newVisitTA" style="display: none">
-					<hr width="100%"> 
+					<!-- <hr width="100%">  -->
 					<!-- </div> -->
 					<div class="panel-group" id="accordion-newvisit">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
+								<h4> New Visit </h4>
 								<div class="form-group row"> 
-									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header"> 
-										<span>  </span> 
-										<br> 
-										<div style="float:right; ">
-										<a onclick = "exitNewVisitForm()"> Exit </a>
+									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header" style="padding-top: 20px"> 
+										<div style="float:right;">
+										<a class='btn btn-primary btn-block' style="background: crimson; white-space: normal; " onclick = "exitNewVisitForm()"> Close </a>
 										</div>
 										<br> 
 									</div>
 									<div class="col-xs-12 col-md-4 margin-for-visit-header" >
 										<span> Date </span> 
 										<br> 
-										<input class="form-control" type="date" id="date"/>
+										<input class="form-control box-height-and-font" type="date" id="date"/>
 									</div>
 									<div class="col-xs-12 col-md-3 margin-for-visit-header" >
 										<span> Time </span> 
@@ -157,57 +157,20 @@
 								</div>
 							</h4>
 						</div>
-						<div id="collapseOne" class="panel-collapse collapse in">
+						<div collclass="panel-collapse collapse">
 							<div class="panel-body notes-text-size">
 								<span> Notes </span>
 								<textarea class="form-control" id="notes" rows="6"></textarea>
 								<br> 
-						      	<button style="float: right" onclick="return saveNewVisit()"> Save Visit </button>
+						      	<button style="float: right; white-space: normal" class='btn btn-primary btn-block' onclick="return saveNewVisit()"> Save Visit </button>
 						      	<br>
 							</div>
 						</div>
 					</div>
 					</div>
-					<hr width="100%"> 
+					<!-- <hr width="100%">  -->
 				</div>
 
-
-<!-- 					<div> 
-						<h4> New Visit </h4>
-					</div>
-					<div class="form-group row"> 
-						<div class="col-sm-1 float-right">
-							<button onclick="return exitNewVisitForm()"> Close </button>
-							<br> 
-						</div>
-						<div class="col-sm-4">
-							<span> Date </span> 
-							<br> 
-							<input class="form-control" type="date" id="date"/>
-						</div>
-						<div class="col-sm-3">
-							<span> Time </span> 
-							<br>
-							<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"/> 
-						</div>
-						<div class="col-sm-3">
-							<span> Price </span> 
-							<br> 
-							<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
-						</div>
-						
-					</div>
-					<span> Notes </span>
-					<textarea class="form-control" id="notes" rows="6"></textarea>
-					<br> 
-			      	<button style="float: right" onclick="return saveNewVisit()"> Save Visit </button>
-			      	<br> 
-			      	<hr width="100%"> 
-		  		</div>  -->
-
-<!-- 			  	<ul class="list-group box-height-and-font" id = "visitsList">
-
-				</ul> -->
 
 				<div class="panel-group" id="accordion-visits">
 					<div class="panel panel-default">
@@ -216,7 +179,7 @@
 								<div class="form-group row"> 
 									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header"> 
 										<div style="float:right; ">
-										<a data-toggle='collapse' href='#collapseFifty' class='accordion-toggle btn btn-primary btn-block'> </a>
+										<a data-toggle='collapse' href='#collapseFifty' class='accordion-toggle btn btn-primary btn-block' style="white-space: normal"> </a>
 										</div>
 										<br> 
 									</div>

@@ -52,7 +52,7 @@ function populateClientPage(){
 		
  
 		// Shouldn't need to link this to an id cause the notes are already fetched. So I could just use the index in a map function? 
-		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block'> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
+		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block' style='white-space: normal; '> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
 		$("#accordion-visits").append(panelItem);
 	})
 	$('.collapse').collapse({toggle: false});
@@ -241,8 +241,7 @@ function saveNewVisit(){
 	var visitDate = $("#newVisitTA #date").val(); 
 	var visitTime = $("#newVisitTA #time").val();
 	var visitPrice = $("#newVisitTA #price").val();
-	var visitNotes = $("#newVisitTA #notes").val();
-	debugger; 
+	var visitNotes = $("#newVisitTA #notes").val(); 
 
 	//save to mongo object 
 	$.post("/old/saveNewVisitPOST", {
@@ -253,23 +252,27 @@ function saveNewVisit(){
 		visitNotes: visitNotes
 	})
 	.done(function(updatedClient){ 
-		//with the new data call a populate visits function to populate this list
 		$("#newVisitTA").css("display", "none");
 
-		$("#accordion-visits").empty();
+		// $("#accordion-visits").empty();
 	
-		
 		clientLoaded = updatedClient; 
 		var allUpdatedVisits = updatedClient["visits"]; 
-		var sortedVisits = sortByDate(allUpdatedVisits)
+		var visit = allUpdatedVisits[allUpdatedVisits.length -1]
+		var sortedVisits = sortByDate(allUpdatedVisits); 
+		var index = "Hundred"
+		// $('.collapse').collapse({toggle: false});
+		// sortedVisits.map(function(visit, index){
 
-		sortedVisits.map(function(visit, index){
 			var dateSplit = visit.date.split("-"); 
 			var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
 			var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block'> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
 			$("#accordion-visits").append(panelItem);
-		})
-		$('.collapse').collapse({toggle: false});
+			debugger; 
+			$('.collapse').collapse({toggle: false});
+		// })
+		debugger; 
+		// $('.collapse').collapse({toggle: false});
 	})
 	.fail(function(err){ 
 		alert("Could not save visit. Please try again.")

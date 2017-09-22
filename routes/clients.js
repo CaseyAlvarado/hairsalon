@@ -9,7 +9,7 @@ var client = mongoose.model('clients', clientModel.clientSchema);
 routes = {}
 
 routes.saveSomethingToDb = function(request, response) {
-	console.log("in save something to db")
+	e.log("in save something to db")
 	var test = new client({firstName: "Caseyuyyyyyyy AYY", lastName: "Tester", phoneNumber: 57777, email: "test@test.com"}); 
 	test.save(function(err){
 		console.log("tried to save"); 
@@ -37,16 +37,14 @@ routes.saveNewClientPOST = function(request, response){
 	// var visitInfo = request.body['visitInfo']
 	// console.log(visitInfo); 
 	var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: [{date: obj.firstVisitDate, time: obj.firstVisitTime , price: obj.firstVisitPrice, notes: obj.firstVisitNotes}]}); 
-	console.log("new client object below")
-	console.log(newClient); 
 	// do this to update visits: https://stackoverflow.com/questions/15621970/pushing-object-into-array-schema-in-mongoose
-	newClient.save(function(err){ 
+	newClient.save(function(err, newClient){ 
 		if(err){ 
 			console.log("There has been an error"); 
 			console.log(err); 
 			response.status(400).send(err); 
 		}
-		response.sendStatus(200); //or send new html page that says yes done, bye. 
+		response.status(200).send(newClient); //or send new html page that says yes done, bye. 
 	})
 }
 
@@ -110,8 +108,6 @@ routes.saveNewVisitPOST = function(request, response){
 	 			console.log("There has been an error saving a new visit" + err); 
 	 			response.status(404).send(err); 
 	 		} 
-	 		console.log("client updated:")
-	 		console.log(clientUpdated); 
 	 		response.status(200).send(clientUpdated); 
 	 	} 
 	)
@@ -123,9 +119,7 @@ routes.updateOldClientInfoPOST = function(request, response){
 // { "_id" : ObjectId("59ae4fe4b949 1e23b6c10423"), "firstName" : "ClientA", "lastName" : "ChangedLastName", "visits" : [ { "wk" : 1, "score" : 10 }, { "wk" : 2, "score" : 88 }, { "wk" : 3, "score" : 5 } ] }
 	//then DO SET FOR ALL FIELDS MANUALLY CAUSE DON'T WANNA REPLACE WHOLE OBJECT SINCE DON'T WANNA REPLACE VISITS 
 
-	var obj = request.body;
-	console.log("what are you saving??"); 
-	console.log(obj);  
+	var obj = request.body;  
 	client.findOneAndUpdate({_id : obj.id}, {$set : {firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity}}, {new: true}, 
 		function(err, clientUpdated){
 			if(err){ 
