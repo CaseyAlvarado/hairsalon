@@ -11,21 +11,14 @@
 	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 
         <script>
-		    // $( document ).ready(function() {
-		    //     console.log( "document loaded" );
-		    //     populateClientsList(); 
-		    // });
-
 		    $( window ).on( "load", function() {
 		        console.log( "window loaded" );
-		        populateClientsList(); 
 		        $('select[name="sortOption"]').change(function(){
-				  	debugger; 
+				  	debugger;
 				    if ($(this).val() == "lastnamesort")
 				    	sortAndDisplayClients("lastnamesort"); 
 				    else if ($(this).val() == "firstnamesort")
 				    	sortAndDisplayClients("firstnamesort"); 
-
 				    
 				});
 		    });
@@ -73,22 +66,15 @@
 			<br>  
 			<div class = "search-results" id="results-clients-list"> 
 				<ul class="list-group box-height-and-font" >
-				  <li class="list-group-item" id = "1" onclick="alert(id)"> Caseeeeyyy </li>
+				  <% allClients.forEach(function(client) { %>
+			        <li class='list-group-item' id='<%= client._id %>' onclick="loadClientPage(id)"> <%= client.firstName %> <%= client.lastName %></li>
+			    <% }); %>
 				</ul>
 			</div> 
 			<br> 
 			<br> 
 			<br> 
 		</div>
-
-<!-- 		<div> 
-		<div> <h4> All Clients </h4></div>
-		<div class = "search-results" id="all-clients-list"> 
-			<ul class="list-group box-height-and-font">
-			  <li class="list-group-item">Casey Alvarado</li>
-			</ul>
-		</div> 
-		</div> -->
 
 	</body>
 </html>

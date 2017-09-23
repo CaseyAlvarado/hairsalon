@@ -33,14 +33,14 @@
 			<div class='form-group-group'>
 		    	<div class='col-sm-6 col-form-label set-text-div-height'><span class='span-vertical-align'>First Name </span></div>
 			    <div class="col-sm-6" id="first-name">
-			      <span class="span-vertical-align">  </span>
+			      <span class="span-vertical-align"> <%- client.firstName %> </span>
 				</div>
 			</div>
 			<br> 
 			<div class="form-group-group">
 		    	<div class="col-sm-6 col-form-label set-text-div-height"><span class="span-vertical-align">Last Name </span></div>
 			    <div class="col-sm-6" id="last-name">
-			      <span class="span-vertical-align">  </span>
+			      <span class="span-vertical-align"> <%- client.lastName %>   </span>
 				</div>
 			</div>
 			<br> 
@@ -54,7 +54,7 @@
 			<div class="form-group-group">
 		    	<div class="col-sm-6 col-form-label set-text-div-height"><span class="span-vertical-align">Email </span></div>
 			    <div class="col-sm-6" id="email">
-			      <span class="span-vertical-align">  </span>
+			      <span class="span-vertical-align"> <%- client.email %> </span>
 				</div>
 			</div>
 			<br> 
@@ -89,7 +89,7 @@
 			<div class="form-group-group">
 		    	<div class="col-sm-6 col-form-label set-text-div-height"><span class="span-vertical-align">Medication used</span></div>
 			    <div class="col-sm-6" id="medication">
-			      <span class="span-vertical-align"> </span> 
+			      <span class="span-vertical-align"> <%- client.medication %> </span> 
 				</div>
 			</div>
 			<br> 
@@ -118,6 +118,8 @@
 				<br> 
 				<br> 
 				<div class="form-group-group" id="newVisitTA" style="display: none">
+					<!-- <hr width="100%">  -->
+					<!-- </div> -->
 					<div class="panel-group" id="accordion-newvisit">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -126,8 +128,7 @@
 								<div class="form-group row"> 
 									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header" style="padding-top: 20px"> 
 										<div style="float:right;">
-										<button  onclick = "return exitNewVisitForm()" class='btn btn-primary btn-block' style="background: crimson; white-space: normal"> Close </button>
-
+										<a class='btn btn-primary btn-block' style="background: crimson; white-space: normal; " onclick = "exitNewVisitForm()"> Close </a>
 										</div>
 										<br> 
 									</div>
@@ -139,12 +140,12 @@
 									<div class="col-xs-12 col-md-3 margin-for-visit-header" >
 										<span> Time </span> 
 										<br>
-										<input type="text" class="form-control box-height-and-font" id="time"/> 
+										<input type="text" class="form-control box-height-and-font" id="time" placeholder="0mins"/> 
 									</div>
 									<div class="col-xs-12 col-md-3 margin-for-visit-header">
 										<span> Price </span> 
 										<br> 
-										<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00'/>
+										<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' placeholder='0.00' />
 									</div>
 								</div>
 							</h4>
@@ -160,13 +161,84 @@
 						</div>
 					</div>
 					</div>
+					<!-- <hr width="100%">  -->
 				</div>
 
 
 				<div class="panel-group" id="accordion-visits">
-
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<div class="form-group row"> 
+									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header"> 
+										<div style="float:right; ">
+										<a data-toggle='collapse' href='#collapseSix' class='accordion-toggle btn btn-primary btn-block' style="white-space: normal"> </a>
+										</div>
+										<br> 
+									</div>
+									<div class="col-xs-12 col-md-4 margin-for-visit-header" >
+										<span> Date </span> 
+										<br> 
+										<span> September 3rd </span>
+									</div>
+									<div class="col-xs-12 col-md-3 margin-for-visit-header" >
+										<span> Time </span> 
+										<br>
+										<span> 5 mins </span>
+									</div>
+									<div class="col-xs-12 col-md-3 margin-for-visit-header">
+										<span> Price </span> 
+										<br> 
+										<span> 100.00</span>
+									</div>
+								</div>
+							</h4>
+						</div>
+						<div id="collapseSix" class="panel-collapse collapse">
+							<div class="panel-body notes-text-size">
+								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+							</div>
+						</div>
+					</div>
 				</div>
 
+				<% client.visits.forEach(function(visit) { %>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<div class="form-group row"> 
+									<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header"> 
+										<div style="float:right; ">
+										<button  id="<%= visit.id %>" data-toggle='collapse' onclick="return openClosePanel(id)" class='btn btn-primary btn-block' style="white-space: normal"> Open </button>
+										</div>
+										<br> 
+									</div>
+									<div class="col-xs-12 col-md-4 margin-for-visit-header" >
+										<span> Date </span> 
+										<br> 
+										<span> <%= visit.date %></span>
+									</div>
+									<div class="col-xs-12 col-md-3 margin-for-visit-header" >
+										<span> Time </span> 
+										<br>
+										<span><%= visit.time %> </span>
+									</div>
+									<div class="col-xs-12 col-md-3 margin-for-visit-header">
+										<span> Price </span> 
+										<br> 
+										<span> <%= visit.price %></span>
+									</div>
+								</div>
+							</h4>
+						</div>
+						<div id="<%= visit.panelBodyId %>" class="panel-collapse collapse" style="display: none">
+							<div class="panel-body notes-text-size">
+								<%= visit.notes %>
+							</div>
+						</div>
+					</div>
+				    <% }); %>
+				</div>
 			</div>
 	  	</form>
 	  	</div>
