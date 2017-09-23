@@ -45,6 +45,8 @@ routes.saveNewClientPOST = function(request, response){
 			response.status(400).send(err); 
 		}
 		response.status(200).send(newClient); //or send new html page that says yes done, bye. 
+
+		// response.status(200).redirect("/old/clientPageGET"); 
 	})
 }
 
@@ -73,7 +75,7 @@ routes.searchClients = function(request, response){
 	} 
 }
 
-routes.loadClients = function(request, response){ 
+routes.getAllClientsGET = function(request, response){ 
 	console.log("in load clients"); 
 	client.find({}, function(err, allClients){ 
 		if(err){ 
@@ -81,18 +83,20 @@ routes.loadClients = function(request, response){
 			console.log(err); 
 			response.send(404); 
 		}
-
 		response.send(allClients); 
 	})
 }
 
-routes.loadOneClientPage = function(request, response){ 
+routes.loadOneClient = function(request, response){ 
+	console.log('IN LOAD ONE CLIENT')
+	console.log(request.query)
 	client.findById(request.query.id, function(err, client){ 
 		if(err){ 
 			console.log("there has been an error loading a client page");
 			console.log(err); 
 			response.send(404); 
-		} 
+		}
+		console.log(client)
 		response.send(client);  
 	})
 }
@@ -131,6 +135,43 @@ routes.updateOldClientInfoPOST = function(request, response){
 		})
 
 	// db.clients.update({"firstName" : "ClientA"}, {$set : {"lastName" : "ChangedLastName"}})
+}
+
+routes.renderSearchPageWithClientsGET = function(request, response){
+	console.log("in all clients"); 
+	client.find({}, function(err, allClientsEver){ 
+		if(err){ 
+			console.log("There has been an error loading all the clients");
+			console.log(err); 
+			//otherwise render an error page
+		}
+		var sortedClients = sortClientsByFirstName(allClientsEver)
+		response.render("search", {allClients : sortedClients}); 
+	})
+
+}
+
+
+function sortClientsByFirstName(clientsArray){ 
+	//http://jsfiddle.net/rLwrx6dx/
+	return clientsArray.sort(function(a, b){ 
+		if(a.firstName.toLowerCase() < b.firstName.toLowerCase()){ 
+			return -1; 
+		}
+		else if(a.firstName.toLowerCase() > b.firstName.toLowerCase()){ 
+			return 1; 
+
+		} else{ //else if first names are equal, if so, check last name
+			if(a.lastName.toLowerCase() < b.lastName.toLowerCase()){ 
+				return -1; 
+			} else if(a.lastName.toLowerCase() > b.lastName.toLowerCase()){  
+				return 1; 
+			} else{  
+				return 0; 
+			}
+		}
+
+	}); 
 }
 
 module.exports = routes; 

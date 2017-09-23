@@ -3,61 +3,6 @@ var $form = $("#ajax-form");
 var clientLoaded; 
 var editMode = false; 
 
-function loadClientPage(id){ 
-	console.log("clicked with this id " + id )
-	$.get("/old/loadClientPageGET", {
-		id:id
-	})
-	.done(function(clientObject, status){ 
-		console.log("got client object")
-		clientLoaded = clientObject; 
-
-		$.get("/old/clientPageGET")
-		.done(function(htmlPage, status){
-			$("body").html(htmlPage);
-			populateClientPage(); 
-		})
-		.fail(function(err){ 
-			alert("Please restart.")
-		})
-
-	})
-	.fail(function(){ 
-		console.log("failed?")
-
-	})
-
-}
-
-function populateClientPage(){ 
-	//load info
-	$("#first-name span").text(clientLoaded.firstName); 
-	$("#last-name span").text(clientLoaded.lastName); 
-	$("#phone-number span").text(clientLoaded.phoneNumber); 
-	$("#email span").text(clientLoaded.email); 
-	$("#address span").text(clientLoaded.address); 
-	$("#city span").text(clientLoaded.city); 
-	$("#state span").text(clientLoaded.state); 
-	$("#zip span").text(clientLoaded.zip); 
-	$("#medication span").text(clientLoaded.medication); 
-	$("#surgery-or-pregnancy span").text(clientLoaded.surgeryOrPregnancy); 
-	$("#sensitivity span").text(clientLoaded.sensitivity); 
-
-	//then load visits 
-	var allVisits = sortByDate(clientLoaded.visits); 
-
-	allVisits.map(function(visit, index){
-		var dateSplit = visit.date.split("-"); 
-		var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
-		
- 
-		// Shouldn't need to link this to an id cause the notes are already fetched. So I could just use the index in a map function? 
-		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block' style='white-space: normal; '> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
-		$("#accordion-visits").append(panelItem);
-	})
-	$('.collapse').collapse({toggle: false});
-}
-
 function turnOnEditMode(){ 
 	editMode = true; 
 
@@ -253,26 +198,17 @@ function saveNewVisit(){
 	})
 	.done(function(updatedClient){ 
 		$("#newVisitTA").css("display", "none");
-
-		// $("#accordion-visits").empty();
 	
 		clientLoaded = updatedClient; 
 		var allUpdatedVisits = updatedClient["visits"]; 
-		var visit = allUpdatedVisits[allUpdatedVisits.length -1]
 		var sortedVisits = sortByDate(allUpdatedVisits); 
-		var index = "Hundred"
-		// $('.collapse').collapse({toggle: false});
-		// sortedVisits.map(function(visit, index){
-
+		$("#accordion-visits").empty();
+		sortedVisits.map(function(visit){
 			var dateSplit = visit.date.split("-"); 
 			var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
-			var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <a data-toggle='collapse' href='#collapse" + index + "' class='accordion-toggle btn btn-primary btn-block'> </a></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + index + "' class='panel-collapse collapse'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
+			var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <button id= '" + visit._id + "' onclick='return openClosePanel(id)' class='btn btn-primary btn-block' style='white-space: normal'> Open </button></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + visit._id + "' class='panel-collapse collapse' style='display: none'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
 			$("#accordion-visits").append(panelItem);
-			debugger; 
-			$('.collapse').collapse({toggle: false});
-		// })
-		debugger; 
-		// $('.collapse').collapse({toggle: false});
+		}) 
 	})
 	.fail(function(err){ 
 		alert("Could not save visit. Please try again.")
@@ -281,20 +217,26 @@ function saveNewVisit(){
 	return false; 
 }
 
-function sortByDate(array){ 
-	array.sort(function(a, b){ 
-		if(a.date > b.date){ return -1; }
-		else if(a.date < b.date){ return 1; }
-		else { return 1; }
-	})
-	return array; 
-}
-
 function exitNewVisitForm(){ 
 	
 	var response = confirm("Are you sure you want to exit and stop writing this visit?"); 
 	if (response == true){ 
 		$("#newVisitTA").css("display", "none"); 
 	}
-	// return false; 
+	return false; 
+}
+
+function openClosePanel(id){ 
+	var panelBodyId = "#collapse" + id; 
+	var buttonId = "#" + id
+
+	var display = $(panelBodyId).css("display"); 
+	if(display == "none"){ 
+		$(panelBodyId).css("display", "inline"); 
+		$(buttonId).text("Close"); 
+	}else{ 
+		$(panelBodyId).css("display", "none");
+		$(buttonId).text("Open"); 
+	}
+	return false; 
 }
