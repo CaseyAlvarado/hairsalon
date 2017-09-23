@@ -70,6 +70,7 @@ function saveClient(){
 	var visitPrice = $("#newVisitTA #price").val();
 	var visitNotes = $("#newVisitTA #notes").val();
 
+
 	//series of checks 
 	var atIndex =  email.indexOf("@");
 	if (firstName === "" || firstName == null){ 
@@ -119,7 +120,6 @@ function saveClient(){
 		  	.fail(function(){ 
 
 		  	})
-
 	  	})
 	  	.error(function(err){
 		    console.log('error')
@@ -361,7 +361,7 @@ function populateClientPage(){
 	allVisits.map(function(visit){
 		var dateSplit = visit.date.split("-"); 
 		var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
-		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <button id= '" + visit._id + "' onclick='return openClosePanel(id)' class='btn btn-primary btn-block' style='white-space: normal'> Open </button></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + visit._id + "' class='panel-collapse collapse' style='display: none'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
+		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <button id= '" + visit._id + "' onclick='return openClosePanel(id)' class='btn btn-primary btn-block' style='white-space: normal'> Open </button></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + visit._id + "' class='panel-collapse collapse' style='display: none'><div class='panel-body notes-text-size'> Notes <pre style='text-align: left;' class='notes-text-size'>" + visit.notes + "</pre></div></div></div>"
 		$("#accordion-visits").append(panelItem);
 	})
 }
