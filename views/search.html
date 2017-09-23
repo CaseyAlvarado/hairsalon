@@ -7,14 +7,12 @@
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	    <script type="text/javascript" src="javascripts/main.js"></script>
-	    <!-- <script type="text/javascript" src="javascripts/clientPage.js"></script> -->
 	    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
 
         <script>
 		    $( window ).on( "load", function() {
 		        console.log( "window loaded" );
 		        $('select[name="sortOption"]').change(function(){
-				  	debugger;
 				    if ($(this).val() == "lastnamesort")
 				    	sortAndDisplayClients("lastnamesort"); 
 				    else if ($(this).val() == "firstnamesort")

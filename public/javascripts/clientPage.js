@@ -4,11 +4,14 @@ var clientLoaded;
 var editMode = false; 
 
 function turnOnEditMode(){ 
+	//replaces all of the spans in the profile page with input boxes so user can edit information 
 	editMode = true; 
 
+	//toggle edit/save button 
 	$("#editButton").css("display", "none"); 
 	$("#saveButton").css("display", "inline"); 
 
+	//scrape information 
 	var firstNameEditModeString = $("<input class='form-control box-height-and-font' value='" + clientLoaded.firstName + "'>")
 	$("#first-name span").remove(); 
 	$("#first-name").append(firstNameEditModeString);
@@ -60,6 +63,7 @@ function turnOnEditMode(){
 
 
 function turnOffEditMode(){ 
+	//replaces all of the input boxes in the profile page with spans, saves updated information, and displays new information 
 	//getting the updated information from input fields
 	editMode = false; 
 	var firstName = $("#first-name input").val().trim();
@@ -74,6 +78,7 @@ function turnOffEditMode(){
 	var surgeryOrPregnancy = $("#surgery-or-pregnancy input").val(); 
 	var sensitivity = $("#sensitivity input").val(); 
 	
+	//checks again 
 	var atIndex =  email.indexOf("@");
 	if (firstName === "" || firstName == null){ 
 		alert("First name is empty or bad")
@@ -90,7 +95,7 @@ function turnOffEditMode(){
 		alert("Check the phone number again. It does not have 10 digits")
 	} else{
 		console.log("we are all good to save!"); 
-		
+		//save new information 
 	  	$.post("/old/updateOldClientInfoPOST", {
 	  		id: clientLoaded._id, 
 	  		firstName: firstName, 
@@ -107,8 +112,8 @@ function turnOffEditMode(){
 		})
 	  	.done(function(updatedClient, status){
 	  		clientLoaded = updatedClient; 
-		    console.log('success'); 
 
+		    //reverts everything back to span with newly updated information 
 		    $("#editButton").css("display", "inline"); 
 			$("#saveButton").css("display", "none"); 
 
@@ -171,18 +176,24 @@ function turnOffEditMode(){
 
 
 function showNewVisitForm(){ 
+	//toggles new visit form 
+
+	//clears information previously existant 
 	$("#date").val(""); 
 	$("#time").val(""); 
 	$("#price").val(""); 
 	$("#notes").val(""); 
 
+	//makes sure not to have two forms open at once for safety 
 	if(editMode){ 
 		alert("SAVE your changes before adding a new visit"); 
 	}else{ $("#newVisitTA").css("display", "inline"); } 
 	return false; 
 }
 
-function saveNewVisit(){ 
+function saveNewVisit(){
+	//scrapes input boxes for new visit details, saves new visit in db, and rerenders visits div to include new visit 
+	//scrape 
 	var visitDate = $("#newVisitTA #date").val(); 
 	var visitTime = $("#newVisitTA #time").val();
 	var visitPrice = $("#newVisitTA #price").val();
@@ -203,6 +214,7 @@ function saveNewVisit(){
 		var allUpdatedVisits = updatedClient["visits"]; 
 		var sortedVisits = sortByDate(allUpdatedVisits); 
 		$("#accordion-visits").empty();
+		//rerender visits div with all the visits (now including recently created visit )
 		sortedVisits.map(function(visit){
 			var dateSplit = visit.date.split("-"); 
 			var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
@@ -218,7 +230,7 @@ function saveNewVisit(){
 }
 
 function exitNewVisitForm(){ 
-	
+	//close new visit form after they agree to leaving in an alert
 	var response = confirm("Are you sure you want to exit and stop writing this visit?"); 
 	if (response == true){ 
 		$("#newVisitTA").css("display", "none"); 
@@ -227,6 +239,8 @@ function exitNewVisitForm(){
 }
 
 function openClosePanel(id){ 
+	//if opened, closes visit buttons to hide notes. 
+	//if closed, opens visit buttons to show notes. 
 	var panelBodyId = "#collapse" + id; 
 	var buttonId = "#" + id
 

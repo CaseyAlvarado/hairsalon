@@ -8,34 +8,35 @@ var client = mongoose.model('clients', clientModel.clientSchema);
 
 routes = {}
 
-routes.saveSomethingToDb = function(request, response) {
-	e.log("in save something to db")
-	var test = new client({firstName: "Caseyuyyyyyyy AYY", lastName: "Tester", phoneNumber: 57777, email: "test@test.com"}); 
-	test.save(function(err){
-		console.log("tried to save"); 
-		if(err){
-			console.log(err); 
-		}else{ response.sendStatus(200); }
-	})
-}
+// routes.saveSomethingToDb = function(request, response) {
+// 	e.log("in save something to db")
+// 	var test = new client({firstName: "Caseyuyyyyyyy AYY", lastName: "Tester", phoneNumber: 57777, email: "test@test.com"}); 
+// 	test.save(function(err){
+// 		console.log("tried to save"); 
+// 		if(err){
+// 			console.log(err); 
+// 		}else{ response.sendStatus(200); }
+// 	})
+// }
 
-routes.getSomethingFromDb = function(request, response){ 
-	console.log("in get something from db"); 
-	client.find({firstName: {$regex : ".*ase.*"}}, function(err, client){ 
-		if(err){ 
-			console.log(err); 
-		}
-		console.log(client); 
-		console.log(client.firstName); 
-		console.log(client.lastName);
-	}); 
+// routes.getSomethingFromDb = function(request, response){ 
+// 	console.log("in get something from db"); 
+// 	client.find({firstName: {$regex : ".*ase.*"}}, function(err, client){ 
+// 		if(err){ 
+// 			console.log(err); 
+// 		}
+// 		console.log(client); 
+// 		console.log(client.firstName); 
+// 		console.log(client.lastName);
+// 	}); 
 
-}
+// }
 
 routes.saveNewClientPOST = function(request, response){ 
+	//Takes in values from fields and adds them to db 
+	//Returns new client object 
+
 	var obj = request.body; 
-	// var visitInfo = request.body['visitInfo']
-	// console.log(visitInfo); 
 	var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: [{date: obj.firstVisitDate, time: obj.firstVisitTime , price: obj.firstVisitPrice, notes: obj.firstVisitNotes}]}); 
 	// do this to update visits: https://stackoverflow.com/questions/15621970/pushing-object-into-array-schema-in-mongoose
 	newClient.save(function(err, newClient){ 
@@ -45,13 +46,13 @@ routes.saveNewClientPOST = function(request, response){
 			response.status(400).send(err); 
 		}
 		response.status(200).send(newClient); //or send new html page that says yes done, bye. 
-
-		// response.status(200).redirect("/old/clientPageGET"); 
 	})
 }
 
 
 routes.searchClients = function(request, response){ 
+	//Queries db for client with first name that matches given string
+	//returns all clients that match by either first or last name the given name string
 
 	var regexQuery = ".*" + request.query.text + ".*"; 
 
@@ -76,6 +77,8 @@ routes.searchClients = function(request, response){
 }
 
 routes.getAllClientsGET = function(request, response){ 
+	//Queries db for all clients in the db 
+	//returns all clients in the db
 	console.log("in load clients"); 
 	client.find({}, function(err, allClients){ 
 		if(err){ 
@@ -87,9 +90,9 @@ routes.getAllClientsGET = function(request, response){
 	})
 }
 
-routes.loadOneClient = function(request, response){ 
-	console.log('IN LOAD ONE CLIENT')
-	console.log(request.query)
+routes.getOneClientGET = function(request, response){ 
+	//Queries db for one client in the db 
+	//returns the client in the db with the matching id 
 	client.findById(request.query.id, function(err, client){ 
 		if(err){ 
 			console.log("there has been an error loading a client page");
@@ -102,9 +105,8 @@ routes.loadOneClient = function(request, response){
 }
 
 routes.saveNewVisitPOST = function(request, response){ 
-	//first update the mongo object 
-	//https://docs.mongodb.com/manual/reference/operator/update/push/
-	 // db.clients.update({"firstName": "ClientA"}, {$push: { visits :{ $each : [{"wk" : 3, "score" : 5}]}}})
+	//Finds a client and adds a visit to the client's visit list 
+	//returns whole updated client 
 	 console.log(request.body)
 	 client.findOneAndUpdate({_id: request.body.clientId}, {$push: { visits: {$each : [{date: request.body.visitDate, time: request.body.visitTime, price: request.body.visitPrice, notes: request.body.visitNotes}]}}}, {new: true}, 
 	 	function(err, clientUpdated){
@@ -119,10 +121,8 @@ routes.saveNewVisitPOST = function(request, response){
 
 
 routes.updateOldClientInfoPOST = function(request, response){
-// > db.clients.find({_id : ObjectId('59ae4fe4b9491e23b6c10423')})
-// { "_id" : ObjectId("59ae4fe4b949 1e23b6c10423"), "firstName" : "ClientA", "lastName" : "ChangedLastName", "visits" : [ { "wk" : 1, "score" : 10 }, { "wk" : 2, "score" : 88 }, { "wk" : 3, "score" : 5 } ] }
-	//then DO SET FOR ALL FIELDS MANUALLY CAUSE DON'T WANNA REPLACE WHOLE OBJECT SINCE DON'T WANNA REPLACE VISITS 
-
+	//Finds client by id (which will never change) and replaces whole object with new updated client 
+	//returns updated client object 
 	var obj = request.body;  
 	client.findOneAndUpdate({_id : obj.id}, {$set : {firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity}}, {new: true}, 
 		function(err, clientUpdated){
@@ -133,12 +133,11 @@ routes.updateOldClientInfoPOST = function(request, response){
 	 		console.log(clientUpdated)
 	 		response.status(200).send(clientUpdated);  
 		})
-
-	// db.clients.update({"firstName" : "ClientA"}, {$set : {"lastName" : "ChangedLastName"}})
 }
 
 routes.renderSearchPageWithClientsGET = function(request, response){
-	console.log("in all clients"); 
+	//Queries db for all the clients and then renders html page with client data
+	//renders html with client data
 	client.find({}, function(err, allClientsEver){ 
 		if(err){ 
 			console.log("There has been an error loading all the clients");
@@ -152,7 +151,10 @@ routes.renderSearchPageWithClientsGET = function(request, response){
 }
 
 
-function sortClientsByFirstName(clientsArray){ 
+function sortClientsByFirstName(clientsArray){
+	//Sorts an array of client objects by client first name 
+	//returns sorted array 
+	 
 	//http://jsfiddle.net/rLwrx6dx/
 	return clientsArray.sort(function(a, b){ 
 		if(a.firstName.toLowerCase() < b.firstName.toLowerCase()){ 

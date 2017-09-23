@@ -30,9 +30,7 @@ app.set('view engine', 'html');
 // START SERVER ================================================================
 app.listen(8000, function() {
   console.log('Server running on port:', 8000);});
-//send html page
-// app.get('/', function(request, response){ 
-//   response.sendFile(__dirname + '/views/login.html')});
+
 app.get('/', function(request, response){ 
 	response.render("login")});
 
@@ -55,19 +53,19 @@ app.get('/home', function(request, response){
 app.get('/new', function(request, response){ 
   response.render("newClient")}); 
 
-app.get('/new/testDB', clients.saveSomethingToDb); 
+// app.get('/new/testDB', clients.saveSomethingToDb); 
+
+// app.get("/getObjectsFromDB", clients.getSomethingFromDb); 
 
 app.post('/new/saveNewClientPOST', clients.saveNewClientPOST); 
 
 app.get('/old', clients.renderSearchPageWithClientsGET)
 
-app.get("/getObjectsFromDB", clients.getSomethingFromDb); 
-
 app.get("/searchClients", clients.searchClients); 
 
 app.get("/getAllClients", clients.getAllClientsGET); 
 
-app.get("/old/loadClientPageGET", clients.loadOneClient); 
+app.get("/old/loadClientPageGET", clients.getOneClientGET); 
 
 app.post("/old/saveNewVisitPOST", clients.saveNewVisitPOST); 
 

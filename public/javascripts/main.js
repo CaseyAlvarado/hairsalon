@@ -4,37 +4,54 @@ var clientsListWhole;
 var clientLoaded; 
 var clientsDisplayed; 
 
-function buttonClick(){ 
-	console.log("ayyyyy in here");
-	alert("poop"); 
-	$.get("/new/testDB", function(response){ 
-		console.log("response:" + response); 
+// LOG IN  ////////////////////////////
+function loginVerify(event){
+	//calls the backend to verify password 
+	//renders a new html page on body if successful or an error message on login screen 
+
+	event.preventDefault(); 
+
+	var name = $("#username").val();
+	var password = $("#password").val();
+
+	$.post("/login", {
+	    username: name,
+	    password: password, 
 	})
+	.done(function(data, status){  
+	    $("body").html(data);
+    })
+    .fail(function(data, status){
+    	$("#username").val("");  
+    	$("#password").val(""); 
+    	var errorMessage = data.responseJSON.error + " Please try again."; 
+    	console.log("oh no there has been an error") 
+    	$("#errorDiv").css("display", "inline-block"); 
+    	$("#errorDiv p").text(errorMessage); 
+    });
 }
 
-function addNewVisitClick(){ 
-	$('#newVisitTA').css('display', 'inline')
-}
+// New Client functions/////////////////////////////////////////////////////
 
-function onClickCloseNewVisit(){ 
-	// alert("Are you sure you want to close visit details?")
-	ans = confirm("Are you sure you want to close visit details?"); 
-	console.log("answer is" + ans)
-}
 
-function formatDate(){ 
-	console.log('IN HERE'); 
-	date = new Date() 
-	month = date.getMonth() + 1
-	year = date.getFullYear()
-	day = date.getDate()
-	out =  date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-	console.log('what should this be?')
-	console.log(out); 
-	return year + "-" + month + "-" + day
-}
+
+// function formatDate(){ 
+// 	console.log('IN HERE'); 
+// 	date = new Date() 
+// 	month = date.getMonth() + 1
+// 	year = date.getFullYear()
+// 	day = date.getDate()
+// 	out =  date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+// 	console.log('what should this be?')
+// 	console.log(out); 
+// 	return year + "-" + month + "-" + day
+// }
 
 function saveClient(){ 
+	//scrapes input boxes for user input, makes several checks, calls back end to save new client in the db, returns html text 
+	//This function renders the html text to display client information 
+
+	//scrape input boxes for info 
 	var firstName = $("#first-name").val().trim();
 	var lastName = $("#last-name").val().trim(); 
 	var phoneNumber = $("#phone-number").val(); 
@@ -53,6 +70,7 @@ function saveClient(){
 	var visitPrice = $("#newVisitTA #price").val();
 	var visitNotes = $("#newVisitTA #notes").val();
 
+	//series of checks 
 	var atIndex =  email.indexOf("@");
 	if (firstName === "" || firstName == null){ 
 		alert("First name is empty or bad")
@@ -71,7 +89,7 @@ function saveClient(){
 		alert("You need to click a date"); 
 	} else{
 		console.log("we are all good to save!"); 
-
+		//save in db 
 	  	$.post("/new/saveNewClientPOST", {
 	  		firstName: firstName, 
 	  		lastName: lastName, 
@@ -93,11 +111,12 @@ function saveClient(){
 		  	clientLoaded = savedClient; 
 		  	$.get("/old/clientPageGET")
 		  	.done(function(htmlPage){ 
+		  		//render html page
 		  		$("body").html(htmlPage); 
+		  		//function to populate this web page 
 		  		populateClientPage(); 
 		  	})
 		  	.fail(function(){ 
-
 
 		  	})
 
@@ -109,43 +128,23 @@ function saveClient(){
 	}
 }
 
-// LOG IN FUNCTION ////////////////////////////
-function loginVerify(event){
-	event.preventDefault(); 
-
-	var name = $("#username").val();
-	var password = $("#password").val();
-
-	console.log("here in form submit")
-	$.post("/login", {
-
-	    username: name,
-	    password: password, 
-	})
-	.done(function(data, status){  
-	    $("body").html(data);
-    })
-    .fail(function(data, status){
-    	$("#username").val("");  
-    	$("#password").val(""); 
-    	var errorMessage = data.responseJSON.error + " Please try again."; 
-    	console.log("oh no there has been an error") 
-    	$("#errorDiv").css("display", "inline-block"); 
-    	$("#errorDiv p").text(errorMessage); 
-    });
-}
 
 //////////////////////////////////////////////////////
 
 function findSearchResults(event){
+	//Takes text in search bar, finds out if any clients match the text, and updated search bar 
 	event.preventDefault(); 
 
+	//removes things previously there
 	$("#results-clients-list ul li").remove(); 
 
+	//gets search bar input
 	var input = $("#search-bar-input").val(); 
 
+	//gets if want to search by first name or last name 
 	var filterOption  = $("#filterOption").val();
 
+	//if nothing there, just show all clients 
 	if (input == ""){ 
 		$("#results-clients-list ul li").remove();
 		clientsDisplayed = null; 
@@ -153,38 +152,38 @@ function findSearchResults(event){
 	}
 
 	var results; 
-	//GET CLIENTS LIST WHOLE HERE 
+
+	//get list of all clients 
 	$.get("/getAllClients")
 	.done(function(clients){
- 
+ 		//clients list whole is all clients 
 		clientsListWhole = clients; 
+		//clients displayed keeps trach of search results displayed 
 		clientsDisplayed = clientsListWhole; 
-			//find either in pre-pop listed
  
+ 		//trying to filter all clients for the search results 
 		results = clientsListWhole.filter(function(client){
 			if(client[filterOption].includes(input)){ 
 				return true; 
 			} 
 			else{ return false; }
 		})
- 
+ 	
+ 		//if got results from this query, display clients 
 		if(results.length > 0){ 
 	 
 			$("#results-client-whole").css("display", "block"); 
 			clientsDisplayed = results; 
 			sortAndDisplayClients(); 
 		}
-
+		//if no clients in our clients list whole, query db to make sure 
 		// ask mongo for client if not existant 
 		else if (results.length == 0 || results == null){ 
-	 
+	 		//query db with search text 
 			$.get("/searchClients", {
 				option: filterOption,
 				text: input})
 			.done(function(clients){
-		 
-				console.log("clients"); 
-				console.log(clients);
 				$("#results-client-whole").css("display", "block"); 
 				clientsDisplayed = clients; 
 				sortAndDisplayClients(); 
@@ -203,29 +202,15 @@ function findSearchResults(event){
 
 }
 
-// function populateClientsList() {
-// 	console.log("in populate clients list"); 
-// 	$.get("/loadAllClients")
-// 	.done(function(allClients){ 
-// 		clientsListWhole = allClients; 
-// 		var sortBy = $("#sortOption").val(); 
-// 		sortAndDisplayClients(sortBy); 
-// 	})
-// 	.fail(function(err){ 
-// 		var errorMsg = "<h5> Sorry cannot load customers right now. </h5>"
-// 		$("#results-clients-list").append(errorMsg);
-// 	})
-
-// }
-
 function sortAndDisplayClients(){  
+	//display clients sorted by name (users choice)
+	//
 	if (clientsDisplayed == null){ //if initial, no clientsDisplayed, check out whole clients list
 		if(clientsListWhole == null){ //if no clients list, populate
 	 
 			$.get("/getAllClients")
 			.done(function(clients){
 				clientsListWhole = clients; 
-		 
 		 
 				var sortBy = $("#sortOption").val(); 
 				$("#results-clients-list ul li").remove(); 
@@ -235,8 +220,7 @@ function sortAndDisplayClients(){
 						var resListItem = "<li class='list-group-item' id='" + res._id + "'  onclick='loadClientPage(id)'>" + res.firstName + " " + res.lastName + "</li>";
 						$("#results-clients-list ul").append(resListItem); 
 					})
-				} else{
-		; 
+				} else{ 
 					sortClientsByLastName(clientsListWhole).forEach(function(res){ 
 						var resListItem = "<li class='list-group-item' id='" + res._id + "'  onclick='loadClientPage(id)'>" + res.firstName + " " + res.lastName + "</li>";
 						$("#results-clients-list ul").append(resListItem); 
@@ -266,7 +250,7 @@ function sortAndDisplayClients(){
 
 		}
 
-	} else{ //if clients displayed, use that 
+	} else{ //if clients displayed, use clients displayed  
 		var sortBy = $("#sortOption").val(); 
 		$("#results-clients-list ul li").remove(); 
 		if(sortBy == "firstnamesort"){ 
@@ -284,7 +268,7 @@ function sortAndDisplayClients(){
 }
 
 function sortClientsByFirstName(clientsArray){ 
-	//http://jsfiddle.net/rLwrx6dx/
+	//makes all letters lower case, sorts by first name first, and then sorts by last name
 	return clientsArray.sort(function(a, b){ 
 		if(a.firstName.toLowerCase() < b.firstName.toLowerCase()){ 
 			return -1; 
@@ -307,6 +291,7 @@ function sortClientsByFirstName(clientsArray){
 
 
 function sortClientsByLastName(clientsArray){ 
+	//makes all letters lower case, sorts by first name first, and then sorts by last name
 	return clientsArray.sort(function(a, b){ 
 		if(a.lastName.toLowerCase() < b.lastName.toLowerCase()){ 
 			return -1; 
@@ -329,15 +314,14 @@ function sortClientsByLastName(clientsArray){
 }
 
 
-////clientPage.js
+// Load Individual Client Page - contact with ClientPage/////////////////////////////////////
 
 function loadClientPage(id){ 
-	console.log("clicked with this id " + id )
-
+	//query db for client object and html page to load individual client profile 
 	$.get("/old/clientPageGET")
 	.done(function(htmlPage, status){
 		$("body").html(htmlPage);
-		$.get("/old/loadClientPageGET", {
+		$.get("/old/getOneClientGET", {
 			id: id
 		})
 		.done(function(clientObject, status){ 
@@ -373,17 +357,13 @@ function populateClientPage(){
 
 	//then load visits 
 	var allVisits = sortByDate(clientLoaded.visits); 
-
+	//map visits array to html page 
 	allVisits.map(function(visit){
 		var dateSplit = visit.date.split("-"); 
 		var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]
-		
- 
-		// Shouldn't need to link this to an id cause the notes are already fetched. So I could just use the index in a map function? 
 		var panelItem = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><div class='form-group row'><div class='col-xs-12 col-md-2 open-close-button margin-for-visit-header'> <div style='float:right;'> <button id= '" + visit._id + "' onclick='return openClosePanel(id)' class='btn btn-primary btn-block' style='white-space: normal'> Open </button></div><br></div><div class='col-xs-12 col-md-4 margin-for-visit-header'><span> Date </span> <br> <span>"+ rearrangedDate +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Time </span> <br> <span>" + visit.time +"</span></div><div class='col-xs-12 col-md-3 margin-for-visit-header'><span> Price </span> <br><span>" + visit.price + "</span></div></h4></div><div id='collapse" + visit._id + "' class='panel-collapse collapse' style='display: none'><div class='panel-body notes-text-size'>" + visit.notes + "</div></div></div>"
 		$("#accordion-visits").append(panelItem);
 	})
-	// $('.collapse').collapse({toggle: false});
 }
 
 function sortByDate(array){ 
@@ -394,3 +374,15 @@ function sortByDate(array){
 	})
 	return array; 
 }
+
+function addNewVisitClick(){ 
+	$('#newVisitTA').css('display', 'inline')
+}
+
+function onClickCloseNewVisit(){ 
+	ans = confirm("Are you sure you want to close visit details?"); 
+	console.log("answer is" + ans)
+}
+
+
+
