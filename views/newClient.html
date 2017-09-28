@@ -18,7 +18,7 @@
 		<nav class='navbar navbar-default'>
 		  <div class='container-fluid'>
 		    <div class='navbar-header'>
-		      <a class='navbar-brand' href='/home'> Hair Deire Salon Database </a>
+		      <a class='navbar-brand' href='/home'> Hair Desire Salon Database </a>
 		    </div>
 		    <ul class='nav navbar-nav'>
 		      <li class='active'><a href='/home'> Home </a></li>
@@ -77,48 +77,48 @@
 				<div class="col-sm-6">
 					<select class="form-control box-height-and-font" id="state" name="state">
 						<option value="">Select your state</option>
-						<option value="AK">Alaska</option>
-						<option value="AL">Alabama</option>
-						<option value="AR">Arkansas</option>
-						<option value="AZ">Arizona</option>
-						<option value="CA">California</option>
-						<option value="CO">Colorado</option>
-						<option value="CT">Connecticut</option>
-						<option value="DC">District of Columbia</option>
-						<option value="DE">Delaware</option>
-						<option value="FL">Florida</option>
-						<option value="GA">Georgia</option>
-						<option value="HI">Hawaii</option>
-						<option value="IA">Iowa</option>
-						<option value="ID">Idaho</option>
-						<option value="IL">Illinois</option>
-						<option value="IN">Indiana</option>
-						<option value="KS">Kansas</option>
-						<option value="KY">Kentucky</option>
-						<option value="LA">Louisiana</option>
-						<option value="MA">Massachusetts</option>
-						<option value="MD">Maryland</option>
-						<option value="ME">Maine</option>
-						<option value="MI">Michigan</option>
-						<option value="MN">Minnesota</option>
-						<option value="MO">Missouri</option>
-						<option value="MS">Mississippi</option>
-						<option value="MT">Montana</option>
-						<option value="NC">North Carolina</option>
-						<option value="ND">North Dakota</option>
-						<option value="NE">Nebraska</option>
-						<option value="NH">New Hampshire</option>
-						<option value="NJ">New Jersey</option>
-						<option value="NM">New Mexico</option>
-						<option value="NV">Nevada</option>
-						<option value="NY">New York</option>
-						<option value="OH">Ohio</option>
-						<option value="OK">Oklahoma</option>
-						<option value="OR">Oregon</option>
-						<option value="PA">Pennsylvania</option>
-						<option value="PR">Puerto Rico</option>
-						<option value="RI">Rhode Island</option>
-						<option value="SC">South Carolina</option>
+						<option value="Alaska">Alaska</option>
+						<option value="Alabama">Alabama</option>
+						<option value="Arkansas">Arkansas</option>
+						<option value="Arizona">Arizona</option>
+						<option value="California">California</option>
+						<option value="Colorado">Colorado</option>
+						<option value="Connecticut">Connecticut</option>
+						<option value="District of Columbia">District of Columbia</option>
+						<option value="Delaware">Delaware</option>
+						<option value="Florida">Florida</option>
+						<option value="Georgia">Georgia</option>
+						<option value="Hawaii">Hawaii</option>
+						<option value="Iowa">Iowa</option>
+						<option value="Idaho">Idaho</option>
+						<option value="Illinois">Illinois</option>
+						<option value="Indiana">Indiana</option>
+						<option value="Kansas">Kansas</option>
+						<option value="Kentucky">Kentucky</option>
+						<option value="Louisiana">Louisiana</option>
+						<option value="Massachusetts">Massachusetts</option>
+						<option value="Maryland">Maryland</option>
+						<option value="Maine">Maine</option>
+						<option value="Michigan">Michigan</option>
+						<option value="Minnesota">Minnesota</option>
+						<option value="Missouri">Missouri</option>
+						<option value="Mississippi">Mississippi</option>
+						<option value="Montana">Montana</option>
+						<option value="North Carolina">North Carolina</option>
+						<option value="North Dakota">North Dakota</option>
+						<option value="Nebraska">Nebraska</option>
+						<option value="New Hampshire">New Hampshire</option>
+						<option value="New Jersey">New Jersey</option>
+						<option value="New Mexico">New Mexico</option>
+						<option value="Nevada">Nevada</option>
+						<option value="New York">New York</option>
+						<option value="Ohio">Ohio</option>
+						<option value="Oklahoma">Oklahoma</option>
+						<option value="Oregon">Oregon</option>
+						<option value="Pennsylvania">Pennsylvania</option>
+						<option value="Puerto Rico">Puerto Rico</option>
+						<option value="Rhode Island">Rhode Island</option>
+						<option value="South Carolina">South Carolina</option>
 						<option value="SD">South Dakota</option>
 						<option value="TN">Tennessee</option>
 						<option value="TX">Texas</option>
@@ -163,28 +163,37 @@
 			<br> 
 			<br> 
 		  	<div> 
-		  	<div> <h4> Visits </h4> </div>
-			<div class="form-group-group" id="newVisitTA">
+
+		  	<div> <span class="span-vertical-align">Visits</span></div>
+		  	<button onclick="return showNewVisitFormFirstTime()" class="btn btn-primary btn-block" style="width:35vw; display: inline; white-space: normal " id="button-show-new-visit-form"> + Add information about first visit </button>
+			<div class="form-group-group" id="newVisitTA-first" style="display: none">
 				<div class="panel-group" id="accordion-newvisit">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<h4> Add information about first visit </h4>
-							<div class="form-group row"> 
+							<span> Add information about first visit </span>
+							<br> 
+							<div class="form-group row">
+								<div class="col-xs-12 col-md-2 open-close-button margin-for-visit-header" style="padding-top: 4.1%"> 
+										<div style="float:right;">
+										<button  onclick = "return exitNewVisitFormFirstTime()" class='btn btn-primary btn-block' style="background: crimson; white-space: normal; font-size: 2.25vw;"> Close </button>
+										</div>
+										<br> 
+									</div> 
 								<div class="col-xs-12 col-md-4 margin-for-visit-header" >
 									<span> Date </span> 
 									<br> 
-									<input class="form-control box-height-and-font" type="date" id="date"/>
+									<input class="form-control box-height-and-font" style="font-size:2.25vw;" type="date" id="date"/>
 								</div>
 								<div class="col-xs-12 col-md-3 margin-for-visit-header" >
 									<span> Time </span> 
 									<br>
-									<input type="text" class="form-control box-height-and-font" id="time" /> 
+									<input type="text" class="form-control box-height-and-font" id="time" style="font-size:2.25vw;" /> 
 								</div>
 								<div class="col-xs-12 col-md-3 margin-for-visit-header">
 									<span> Price </span> 
 									<br> 
-									<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' />
+									<input type='number' class="form-control box-height-and-font" id="price" step='0.01' value='0.00' style="font-size:2.25vw;"/>
 								</div>
 							</div>
 						</h4>
@@ -192,14 +201,15 @@
 					<div collclass="panel-collapse collapse">
 						<div class="panel-body notes-text-size">
 							<span> Notes </span>
-							<textarea class="form-control" id="notes" rows="6"></textarea>
+							<textarea class="form-control" id="notes" rows="6" style="font-size:2.25vw;"></textarea>
 						</div>
 					</div>
 				</div>
 				</div> 
 			</div>
-			</div>		  	
-		  	<button type="button" class="btn btn-primary btn-block" style="font-size: 20px; white-space: normal" value="Submit" onclick="saveClient()">Save client</button>
+			</div>
+			<br> 	 	
+		  	<button type="button" class="btn btn-primary btn-block" style=" white-space: normal" value="Submit" onclick="saveClient()">Save client</button>
 	  	</form>
 	  	</div>
 	</body>

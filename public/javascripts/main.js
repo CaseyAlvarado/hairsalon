@@ -47,6 +47,30 @@ function loginVerify(event){
 // 	return year + "-" + month + "-" + day
 // }
 
+function showNewVisitFormFirstTime(){ 
+	//toggles new visit form 
+
+	//clears information previously existant 
+	$("#date").val(""); 
+	$("#time").val(""); 
+	$("#price").val(""); 
+	$("#notes").val(""); 
+	$("#newVisitTA-first").css("display", "inline"); 
+	$("#button-show-new-visit-form").css("display", "none"); 
+
+	return false; 
+}
+
+function exitNewVisitFormFirstTime(){ 
+	//close new visit form after they agree to leaving in an alert
+	var response = confirm("Are you sure you want to exit and stop writing this visit?"); 
+	if (response == true){ 
+		$("#newVisitTA-first").css("display", "none"); 
+		$("#button-show-new-visit-form").css("display", "inline"); 
+	}
+	return false; 
+}
+
 function saveClient(){ 
 	//scrapes input boxes for user input, makes several checks, calls back end to save new client in the db, returns html text 
 	//This function renders the html text to display client information 
@@ -64,12 +88,10 @@ function saveClient(){
 	var surgeryOrPregnancy = $("#surgery-or-pregnancy").val(); 
 	var sensitivity = $("#sensitivity").val(); 
 
-
-	var visitDate = $("#newVisitTA #date").val(); 
-	var visitTime = $("#newVisitTA #time").val();
-	var visitPrice = $("#newVisitTA #price").val();
-	var visitNotes = $("#newVisitTA #notes").val();
-
+	var visitDate = $("#newVisitTA #date").val() || ""; 
+	var visitTime = $("#newVisitTA #time").val() || "";
+	var visitPrice = $("#newVisitTA #price").val() || "";
+	var visitNotes = $("#newVisitTA #notes").val() || "";
 
 	//series of checks 
 	var atIndex =  email.indexOf("@");
@@ -86,8 +108,6 @@ function saveClient(){
 		alert('Your phone number starts with 0, which means its probably not a real number');
 	} else if((phoneNumber !== "") && (phoneNumber.length !== 10)){ 
 		alert("Check the phone number again. It does not have 10 digits")
-	} else if (visitDate == null || visitDate == ""){ 
-		alert("You need to click a date"); 
 	} else{
 		console.log("we are all good to save!"); 
 		//save in db 
@@ -345,7 +365,7 @@ function populateClientPage(){
 	//load info
 	$("#first-name span").text(clientLoaded.firstName); 
 	$("#last-name span").text(clientLoaded.lastName); 
-	$("#phone-number span").text(clientLoaded.phoneNumber); 
+	$("#phone-number span").text(clientLoaded.phoneNumber || "" ); 
 	$("#email span").text(clientLoaded.email); 
 	$("#address span").text(clientLoaded.address); 
 	$("#city span").text(clientLoaded.city); 

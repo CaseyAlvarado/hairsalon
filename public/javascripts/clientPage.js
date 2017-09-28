@@ -20,7 +20,7 @@ function turnOnEditMode(){
 	$("#last-name span").remove(); 
 	$("#last-name").append(lastNameEditModeString);
 
-	var phoneNumberEditModeString = $("<input class='form-control box-height-and-font' value='" + clientLoaded.phoneNumber + "'>")
+	var phoneNumberEditModeString = $("<input class='form-control box-height-and-font' value='" + (clientLoaded.phoneNumber || "") + "' maxlength='10'>")
 	$("#phone-number span").remove(); 
 	$("#phone-number").append(phoneNumberEditModeString);
 
@@ -215,6 +215,7 @@ function saveNewVisit(){
 		var sortedVisits = sortByDate(allUpdatedVisits); 
 		$("#accordion-visits").empty();
 		//rerender visits div with all the visits (now including recently created visit )
+		
 		sortedVisits.map(function(visit){
 			var dateSplit = visit.date.split("-"); 
 			var rearrangedDate = dateSplit[1] + "/" + dateSplit[2] + "/" + dateSplit[0]

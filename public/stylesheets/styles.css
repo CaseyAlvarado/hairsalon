@@ -4,7 +4,11 @@ body {
 }
 
 span, a, li , .btn, div{ 
-  font-size: 20px; 
+  font-size: 3vw; 
+}
+
+p{ 
+    font-size: 2vw; 
 }
 
 #new-client-form-center{ 
@@ -19,24 +23,19 @@ span, a, li , .btn, div{
 }
 
 .form-group-group .set-text-div-height{  
-	height: 38px;
+	height: inherit;
 }
 
 .span-vertical-align{ 
-  font-size: 20px; 
+  font-size: 3vw; 
   display: inline-block; 
   vertical-align: middle;
-  line-height: 38px; 
   text-align: left; 
  }
 
 .box-height-and-font{ 
-  height:42px;
-  font-size: 15px; 
- }
-
- #x-close{ 
- 	float: right;
+  height:48px;
+  font-size: 3vw; 
  }
 
 .home-box{ 
@@ -84,7 +83,11 @@ span, a, li , .btn, div{
 
 .open-close-button{ 
   float: right;
-  padding-right: 5%; 
+  padding-right: 3%; 
+}
+
+.open-close-button button{ 
+  font-size: 2.25vw; 
 }
 
 .margin-for-visit-header{ 
@@ -93,16 +96,12 @@ span, a, li , .btn, div{
 }
 
 .notes-text-size{ 
-  font-size: 18px; 
+  font-size: 2.25vw; 
 }
 
-.panel-heading .accordion-toggle:after {
-    content: "Close"; 
-    font-size: 15px;    
-}
-.panel-heading .accordion-toggle.collapsed:after {
-    content: "Open";  
-    font-size: 15px;  
+.panel-body pre{ 
+  background: white; 
+  font-family: inherit; 
 }
 
 .panel-default{ 
@@ -133,3 +132,17 @@ span, a, li , .btn, div{
 .find-old-button{ 
     width:48%;
 }
+
+#newVisitTA-first span{ 
+  font-size: 2.25vw; 
+
+}
+
+#newVisitTA span{ 
+  font-size: 2.25vw; 
+}
+
+#accordion-visits span{ 
+  font-size: 2.25vw; 
+}
+
