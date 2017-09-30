@@ -370,7 +370,7 @@ function populateClientPage(){
 	$("#address span").text(clientLoaded.address); 
 	$("#city span").text(clientLoaded.city); 
 	$("#state span").text(clientLoaded.state); 
-	$("#zip span").text(clientLoaded.zip); 
+	$("#zip span").text(clientLoaded.zip || ""); 
 	$("#medication span").text(clientLoaded.medication); 
 	$("#surgery-or-pregnancy span").text(clientLoaded.surgeryOrPregnancy); 
 	$("#sensitivity span").text(clientLoaded.sensitivity); 
