@@ -38,13 +38,21 @@ routes.saveNewClientPOST = function(request, response){
 
 	var obj = request.body; 
 	console.log(obj); 
-	if ((obj.firstVisitDate == "") && (obj.firstVisitTime == "") && (obj.firstVisitPrice == "") && (obj.firstVisitNotes == "")){ 
+	console.log(obj.firstVisitDate); 
+	console.log(obj.firstVisitTime); 
+	console.log(obj.firstVisitPrice); 
+	console.log(obj.firstVisitNotes); 
+
+	if ((obj.firstVisitDate == "") && (obj.firstVisitTime == "") && (obj.firstVisitPrice == 0.00) && (obj.firstVisitNotes == "")){
+		console.log("in where everything is empty") 
 		var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: []}); 
 	}
 	else{ 
+		console.log("in where everything is not empty")
 		var newClient = new client({firstName: obj.firstName, lastName: obj.lastName, phoneNumber: obj.phoneNumber, email: obj.email, address: obj.address, city: obj.city, state: obj.state, zip: obj.zip, medication: obj.medication, surgeryOrPregnancy: obj.surgeryOrPregnancy, sensitivity: obj.sensitivity, visits: [{date: obj.firstVisitDate, time: obj.firstVisitTime , price: obj.firstVisitPrice, notes: obj.firstVisitNotes}]}); 
 	} 
-	
+
+	console.log(newClient); 
 	// do this to update visits: https://stackoverflow.com/questions/15621970/pushing-object-into-array-schema-in-mongoose
 	newClient.save(function(err, newClient){ 
 		if(err){ 

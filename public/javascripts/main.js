@@ -88,11 +88,11 @@ function saveClient(){
 	var surgeryOrPregnancy = $("#surgery-or-pregnancy").val(); 
 	var sensitivity = $("#sensitivity").val(); 
 
-	var visitDate = $("#newVisitTA #date").val() || ""; 
-	var visitTime = $("#newVisitTA #time").val() || "";
-	var visitPrice = $("#newVisitTA #price").val() || "";
-	var visitNotes = $("#newVisitTA #notes").val() || "";
-
+	var visitDate = $("#newVisitTA-first #date").val() || ""; 
+	var visitTime = $("#newVisitTA-first #time").val() || "";
+	var visitPrice = $("#newVisitTA-first #price").val() || "";
+	var visitNotes = $("#newVisitTA-first #notes").val() || "";
+	
 	//series of checks 
 	var atIndex =  email.indexOf("@");
 	if (firstName === "" || firstName == null){ 
@@ -128,8 +128,9 @@ function saveClient(){
 	  		firstVisitPrice: visitPrice, 
 	  		firstVisitNotes: visitNotes 
 		})
+
 	  	.done(function(savedClient){ 
-		  	clientLoaded = savedClient; 
+		  	clientLoaded = savedClient;
 		  	$.get("/old/clientPageGET")
 		  	.done(function(htmlPage){ 
 		  		//render html page
