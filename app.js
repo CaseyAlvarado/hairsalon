@@ -7,10 +7,10 @@ var fs = require("fs");
 var request = require("request"); 
 var cheerio = require("cheerio"); 
 var app = express(); 
-
+// ec2-18-207-130-153.compute-1.amazonaws.com
 
 var mongoose = require('mongoose'); 
-var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-34-204-182-56.compute-1.amazonaws.com:27017/hairsalonDB'
+var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-18-207-130-153.compute-1.amazonaws.com:27017/hairsalonDB'
 mongoose.connect(uri); 
 
 var user = {name: "Maria", pwd: "Maria"} 
