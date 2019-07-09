@@ -11,7 +11,8 @@ var app = express();
 
 var mongoose = require('mongoose'); 
 //var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-34-204-182-56.compute-1.amazonaws.com:27017/hairsalonDB'
-var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-18-207-130-153.compute-1.amazonaws.com:27017/hairsalonDB'
+//var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-18-207-130-153.compute-1.amazonaws.com:27017/hairsalonDB'
+var uri = 'mongodb://Casey-hairsalonDB:Aerosmith1@ec2-34-226-244-196.compute-1.amazonaws.com:27017/hairsalonDB'
 mongoose.connect(uri); 
 
 var user = {name: "Maria", pwd: "Maria"} 
