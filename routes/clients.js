@@ -71,8 +71,8 @@ routes.searchClients = function(request, response){
 
 
 	var query = "/.*" + request.query.text + ".*/i";
-	var reqexQuery = new RegExp(query); 
-	
+	var regexQuery = new RegExp(query); 
+
 	var filterOption = String(request.query.option); 
 
 	if(filterOption == "lastName"){ 
