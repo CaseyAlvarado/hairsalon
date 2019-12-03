@@ -69,8 +69,7 @@ routes.searchClients = function(request, response){
 	//Queries db for client with first name that matches given string
 	//returns all clients that match by either first or last name the given name string
 
-	var regexQuery = "/.*" + String(request.query.text) + ".*/i"; 
-	console.log("regex query" + regexQuery)	 
+	var regexQuery = "/.*" + request.query.text + ".*/i";  
 
 	var filterOption = String(request.query.option); 
 
@@ -87,7 +86,6 @@ routes.searchClients = function(request, response){
 			if(err){ 
 				response.status(404).send(err);
 			}
-			console.log("IN finding first name")
 			response.send(clients);
 		});
 
