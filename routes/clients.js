@@ -69,18 +69,19 @@ routes.searchClients = function(request, response){
 	//Queries db for client with first name that matches given string
 	//returns all clients that match by either first or last name the given name string
 
-	var regexQuery = ".*" + request.query.text + ".*"; 
+
+	var regexQuery = ".*" + request.query.text + ".*i";
 
 	var filterOption = String(request.query.option); 
 
 	if(filterOption == "lastName"){ 
-		client.find({"lastName": {$regex : regexQuery}}, function(err, clients){
+		client.find({"lastName": {$regex : regexQuery}}, function(err, clients){  
 			if(err){ 
-				console.log(err); 
 				response.status(404).send(err);
 			}
-			response.send(clients); 
+			response.send(clients);
 		});
+
 	} else { //if (filterOption == "firstName")
 		client.find({"firstName": {$regex : regexQuery}}, function(err, clients){  
 			if(err){ 
@@ -88,6 +89,7 @@ routes.searchClients = function(request, response){
 			}
 			response.send(clients);
 		});
+
 	} 
 }
 
