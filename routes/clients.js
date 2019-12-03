@@ -70,7 +70,7 @@ routes.searchClients = function(request, response){
 	//returns all clients that match by either first or last name the given name string
 
 
-	var regexQuery = ".*" + request.query.text + ".*i";
+	var regexQuery = "/.*" + request.query.text + ".*/i";
 
 	var filterOption = String(request.query.option); 
 
