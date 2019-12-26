@@ -68,11 +68,10 @@ routes.saveNewClientPOST = function(request, response){
 routes.searchClients = function(request, response){ 
 	//Queries db for client with first name that matches given string
 	//returns all clients that match by either first or last name the given name string
-
-	var regexQuery = ".*" + request.query.text + ".*";  
+	var regexQuery = ".*" + request.query.text + ".*";   
 
 	var filterOption = String(request.query.option); 
-
+ 
 	if(filterOption == "lastName"){ 
 		client.find({"lastName": {$regex : regexQuery}}, function(err, clients){  
 			if(err){ 
@@ -95,7 +94,7 @@ routes.searchClients = function(request, response){
 routes.getAllClientsGET = function(request, response){ 
 	//Queries db for all clients in the db 
 	//returns all clients in the db
-	console.log("in load clients"); 
+
 	client.find({}, function(err, allClients){ 
 		if(err){ 
 			console.log("There has been an error loading all the clients");
@@ -154,6 +153,7 @@ routes.updateOldClientInfoPOST = function(request, response){
 routes.renderSearchPageWithClientsGET = function(request, response){
 	//Queries db for all the clients and then renders html page with client data
 	//renders html with client data
+
 	client.find({}, function(err, allClientsEver){ 
 		if(err){ 
 			console.log("There has been an error loading all the clients");

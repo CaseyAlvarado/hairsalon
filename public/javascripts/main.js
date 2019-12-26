@@ -160,17 +160,11 @@ function findSearchResults(event){
 	$("#results-clients-list ul li").remove(); 
 
 	//gets search bar input
-	var input = $("#search-bar-input").val(); 
-
+	var input_pre_regex = $("#search-bar-input").val();
+	var input =  new RegExp(input_pre_regex, 'i') ; 
+ 
 	//gets if want to search by first name or last name 
 	var filterOption  = $("#filterOption").val();
-
-	//if nothing there, just show all clients 
-	if (input == ""){ 
-		$("#results-clients-list ul li").remove();
-		clientsDisplayed = null; 
-		sortAndDisplayClients();  
-	}
 
 	var results; 
 
@@ -184,12 +178,16 @@ function findSearchResults(event){
  
  		//trying to filter all clients for the search results 
 		results = clientsListWhole.filter(function(client){
-			if(client[filterOption].includes(input)){ 
+			if(client[filterOption].match(input) !== null  ){
 				return true; 
-			} 
-			else{ return false; }
+			}
+			else{  
+				return false; 
+			}
 		})
- 	
+ 		
+ 		//console.log(results.length); 
+ 		
  		//if got results from this query, display clients 
 		if(results.length > 0){ 
 	 
