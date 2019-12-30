@@ -162,6 +162,8 @@ function findSearchResults(event){
 	//gets search bar input
 	var input_pre_regex = $("#search-bar-input").val();
 	var input =  new RegExp(input_pre_regex, 'i') ; 
+
+	console.log(input); 
  
 	//gets if want to search by first name or last name 
 	var filterOption  = $("#filterOption").val();
@@ -179,6 +181,8 @@ function findSearchResults(event){
  		//trying to filter all clients for the search results 
 		results = clientsListWhole.filter(function(client){
 			if(client[filterOption].match(input) !== null  ){
+				console.log(client[filterOption]); 
+				console.log("not null"); 
 				return true; 
 			}
 			else{  
@@ -186,7 +190,7 @@ function findSearchResults(event){
 			}
 		})
  		
- 		//console.log(results.length); 
+ 		console.log(results.length); 
  		
  		//if got results from this query, display clients 
 		if(results.length > 0){ 
